@@ -66,8 +66,8 @@ class LavaDeathStage extends Stage {
   }
 
   void _updateFireballLines(Duration duration) {
+    FireballLine.update(duration);
     for (FireballLine fireballLine in fireballLines) {
-      FireballLine.update(duration);
       fireballLine.rotation.y += duration.inMilliseconds * 0.0005;
     }
   }
