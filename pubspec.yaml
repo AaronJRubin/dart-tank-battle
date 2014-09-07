@@ -1,0 +1,15 @@
+name: bouncyballbattle
+author: Aaron Rubin
+description: A sample web application
+dependencies:
+  browser: any
+  cookie: any
+  core_elements: any
+  paper_elements: any
+  polymer: any
+  three:
+    git:
+      ref: master
+      url: git://github.com/threeDart/three.dart.git
+transformers:
+- polymer

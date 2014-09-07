@@ -1,0 +1,47 @@
+body {
+font-family: Tahoma, Geneva, sans-serif;
+font-size: 1rem;
+}
+
+ #play-button {
+         background: #4285f4;
+         color: #fff;
+     }
+
+     #play-button:hover {
+         background: #2a56c6;
+     }
+
+     #play-button::shadow #ripple {
+         color: #2a56c6;
+     }
+
+player-input {
+  margin-bottom: 20px;
+}
+
+p {
+  margin: 3px;
+  text-align: center;
+}
+
+a {
+    color: rgb(0,0,166);
+    font-weight: 700;
+    border-bottom: 1px dotted;
+    text-decoration: none;
+}
+a:visited {
+    color: rgb(122,0,122);
+}
+a:hover,
+a:focus,
+a:active {
+    border-bottom: 2px solid;
+
+}
+a:focus,
+a:active {
+    color: rgb(166,0,0);
+}
+

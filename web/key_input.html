@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<link rel="import" href="packages/polymer/polymer.html">
+<polymer-element name="key-input" constructor="KeyInput">
+<template>
+<link rel="stylesheet" href="my_select.css">
+<select id="select">
+<option template repeat ="{{key in keys}}" value="{{key}}" selected?="{{key == defaultKey}}">
+{{key}}
+</option>
+</select>
+</template>
+
+<script type="application/dart" src="key_input.dart">
+</script>
+
+</polymer-element>
