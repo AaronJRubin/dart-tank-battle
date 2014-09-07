@@ -23,18 +23,26 @@ class LavaDeathStage extends Stage {
   static const double LAVA_POOL_Y_COORDINATE = -ENVIRONMENT_WIDTH / 2;
   static final Texture floorTexture = loadTexture("lava-stage-textures/Lava_texture_by_Twister10.jpg");
   static final Texture wallTexture = loadTexture("lava-stage-textures/william_wall_01_S.png");
-  /* I don't make lavaTexture static because animating static textures seems like a poor practice
-   * unless there is a significant performance difference, as in the case of the fireballs
-   * in obstacles.dart
+  /* The fact that the lava pool texture is static means
+   * that animating one will animate all, for every instance
+   * of the LavaDeathStage class. Since there are no intentions
+   * of instantiating more than one instance of this class
+   * at once, I deemed that acceptable, and having this texture
+   * be static makes initialization of other fields (such
+   * as the starting models) more straightforward.
     */
-  final Texture lavaPoolTexture = loadTexture("lava-stage-textures/lava.jpg");
+  static final Texture lavaPoolTexture = loadTexture("lava-stage-textures/lava.jpg");
   final bool walls;
   List<FallingPlayerAnimation> fallingPlayerAnimations = new List<FallingPlayerAnimation>();
   final Scene scene;
 
   List<UpdateAction> updateActions = [];
-  List<FireballLine> fireballLines = [];
-  List<Object3D> startingModels = [];
+  List<FireballLine> fireballLines = generateFireballLines();
+  List<Object3D> _startingModelsSansFireballs = generateStartingModelsSansFireballs();
+
+  List<Object3D> get startingModels {
+    return new List.from(_startingModelsSansFireballs)..addAll(fireballLines);
+  }
 
   LavaDeathStage(this.scene, {this.walls: false}) {
     lavaPoolTexture.needsUpdate = true;
@@ -42,7 +50,9 @@ class LavaDeathStage extends Stage {
     wallTexture.wrapS = wallTexture.wrapT = RepeatWrapping;
     wallTexture.repeat.setValues(2.0, 2.0);
     wallTexture.needsUpdate = true;
-    generateStartingModels();
+    if (walls) {
+      _startingModelsSansFireballs.addAll(Stage._makeAndPlaceWalls(makeStoneFence, SQUARE_STAGE_WIDTH));
+    }
     _registerUpdateAction(_updateFireballLines);
     _registerUpdateAction(_updateLavaPool);
   }
@@ -124,7 +134,7 @@ class LavaDeathStage extends Stage {
     return Stage.makeFence(squareStageWidth, wallTexture, heightWidthRatio: 40.0);
   }
 
-  Object3D makeLavaPool() {
+  static Object3D makeLavaPool() {
     MeshBasicMaterial poolMaterial = new MeshBasicMaterial(side: DoubleSide);
     poolMaterial.map = lavaPoolTexture;
     Geometry geometry = new PlaneGeometry(ENVIRONMENT_WIDTH, ENVIRONMENT_WIDTH);
@@ -134,7 +144,8 @@ class LavaDeathStage extends Stage {
     return pool;
   }
 
-  void generateStartingModels() {
+  static List<FireballLine> generateFireballLines() {
+    List<FireballLine> toReturn = new List<FireballLine>();
     int fireballCount = (SQUARE_STAGE_WIDTH ~/ 2) ~/ Fireball.radius;
     int twoEleventhsPoint = fireballCount * 2 ~/ 11;
     int fiveEleventhsPoint = fireballCount * 5 ~/ 11;
@@ -146,16 +157,18 @@ class LavaDeathStage extends Stage {
     for (int i = 0; i < 3; i++) {
       FireballLine myFireballLine = new FireballLine(fireballCount: fireballCount, toSkip: toSkip);
       myFireballLine.rotation.y += i * 2 * PI / 3;
-      fireballLines.add(myFireballLine);
-      startingModels.add(myFireballLine);
+      toReturn.add(myFireballLine);
     }
-    if (walls) {
-      startingModels.addAll(Stage._makeAndPlaceWalls(makeStoneFence, SQUARE_STAGE_WIDTH));
-    }
-    startingModels.add(makeVolcanoCylinder(ENVIRONMENT_WIDTH));
-    startingModels.add(Stage._generateGround(SQUARE_STAGE_WIDTH, texture: floorTexture));
-    startingModels.add(makeLavaPool());
-    startingModels.add(Stage._generateDefaultLight());
+    return toReturn;
+  }
+
+  static List<Object3D> generateStartingModelsSansFireballs() {
+    List<Object3D> toReturn = new List<Object3D>();
+    toReturn.add(makeVolcanoCylinder(ENVIRONMENT_WIDTH));
+    toReturn.add(Stage._generateGround(SQUARE_STAGE_WIDTH, texture: floorTexture));
+    toReturn.add(makeLavaPool());
+    toReturn.add(Stage._generateDefaultLight());
+    return toReturn;
   }
 
 }
