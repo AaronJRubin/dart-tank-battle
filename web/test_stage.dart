@@ -30,9 +30,7 @@ class TestStage extends Stage {
     for (LightningField lightningField in lightningFields) {
       lightningField.update(d);
     }
-    for (FireballLine fireball in fireballLines) {
-      fireball.update(d);
-    }
+    FireballLine.update(d);
   }
 
   void positionPlayersAppropriately(List<RealisticMovementPlayer> players) {

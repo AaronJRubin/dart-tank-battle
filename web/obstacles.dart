@@ -27,12 +27,8 @@ class FireballLine extends Object3D {
     }
   }
 
-  void update(Duration d) {
-  //  rotation.y += d.inMilliseconds * 0.001;
+  static void update(Duration d) {
     Fireball.update(d);
-   /* for (Fireball fireball in fireballs) {
-      fireball.update(d);
-    } */
   }
 
   bool checkPlayerCollision(Player p) {
@@ -54,8 +50,8 @@ class Fireball extends Object3D {
   static final Texture fireTexture = generateFireTexture();
 
   static void update(Duration d) {
-    fireTexture.offset.y = fireTexture.offset.y - (d.inMilliseconds * 0.0001);
-    fireTexture.offset.x = fireTexture.offset.x - (d.inMilliseconds * 0.0001);
+    fireTexture.offset.y = fireTexture.offset.y - (d.inMilliseconds * 0.0003);
+    fireTexture.offset.x = fireTexture.offset.x - (d.inMilliseconds * 0.0003);
   }
 
   static Texture generateFireTexture() {
