@@ -2,9 +2,9 @@ part of stage;
 
 class BasicStage extends Stage {
 
-  static final double _SQUARESTAGEWIDTH = 3000.0;
-  static final double _SPAWNINGREGIONWIDTH = _SQUARESTAGEWIDTH * 9/10;
-  static final double _ENVIRONMENTWIDTH = _SQUARESTAGEWIDTH * 2.0;
+  static const double _SQUARESTAGEWIDTH = 3000.0;
+  static const double _SPAWNINGREGIONWIDTH = _SQUARESTAGEWIDTH * 9/10;
+  static const double _ENVIRONMENTWIDTH = _SQUARESTAGEWIDTH * 2.0;
 
   final bool simpleGraphics;
   final Scene scene;

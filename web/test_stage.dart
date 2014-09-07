@@ -2,9 +2,9 @@ part of stage;
 
 class TestStage extends Stage {
 
-  static final double _SQUARESTAGEWIDTH = 10000.0;
-  static final double _SPAWNINGREGIONWIDTH = _SQUARESTAGEWIDTH * 9 / 10;
-  static final double _ENVIRONMENTWIDTH = _SQUARESTAGEWIDTH * 2.0;
+  static const double _SQUARESTAGEWIDTH = 10000.0;
+  static const double _SPAWNINGREGIONWIDTH = _SQUARESTAGEWIDTH * 9 / 10;
+  static const double _ENVIRONMENTWIDTH = _SQUARESTAGEWIDTH * 2.0;
 
   List<Object3D> startingModels = [];
   List<Function> updateActions = [];

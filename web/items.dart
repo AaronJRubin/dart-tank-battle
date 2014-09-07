@@ -4,7 +4,7 @@ import 'package:three/three.dart';
 import 'dart:math';
 
 class Item extends Object3D {
-  static final double collidingSphereRadius = 50.0;
+  static const double collidingSphereRadius = 50.0;
   Mesh _surroundingCircle = new Mesh(new SphereGeometry(collidingSphereRadius), new MeshBasicMaterial(color: new Random().nextInt(0xffffff), wireframe: true));
 
   Item() {
@@ -18,10 +18,10 @@ class Item extends Object3D {
 
 class SpikeBall extends Item {
 
-  static final double _ballRadius = Item.collidingSphereRadius / 2.0;
-  static final double _spikeLength = Item.collidingSphereRadius - _ballRadius;
-  static final double _spikeTopRadius = _ballRadius / 40;
-  static final double _spikeBottomRadius = _ballRadius / 4;
+  static const double _ballRadius = Item.collidingSphereRadius / 2.0;
+  static const double _spikeLength = Item.collidingSphereRadius - _ballRadius;
+  static const double _spikeTopRadius = _ballRadius / 40;
+  static const double _spikeBottomRadius = _ballRadius / 4;
   static final Geometry _ballGeometry = new SphereGeometry(_ballRadius);
   static final Geometry _spikeGeometry = new CylinderGeometry(_spikeTopRadius, _spikeBottomRadius, _spikeLength);
   static final Material _ballMaterial = new MeshLambertMaterial(color: 0x000000);
@@ -60,12 +60,12 @@ class SpikeBall extends Item {
 }
 
 class Shotgun extends Item {
-  static final double _shaftLength = Item.collidingSphereRadius;
-  static final double _shaftRadius = _shaftLength / 10.0;
-  static final double _handleLength = _shaftLength / 5;
-  static final double _handleRotationAngle = PI / 4;
-  static final int brownHandleColor = 0xf4a460;
-  static final int greyShaftColor = 0x484848;
+  static const double _shaftLength = Item.collidingSphereRadius;
+  static const double _shaftRadius = _shaftLength / 10.0;
+  static const double _handleLength = _shaftLength / 5;
+  static const double _handleRotationAngle = PI / 4;
+  static const int brownHandleColor = 0xf4a460;
+  static const int greyShaftColor = 0x484848;
   static final Material handleMaterial = new MeshLambertMaterial(color: brownHandleColor);
   static final Material shaftMaterial = new MeshLambertMaterial(color: greyShaftColor);
   static final Geometry shaftGeometry = new CylinderGeometry(_shaftRadius, _shaftRadius, _shaftLength);

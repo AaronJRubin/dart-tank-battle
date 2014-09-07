@@ -2,7 +2,7 @@ part of animation;
 
 class AnimationTimeline extends Animation {
 
-  static final int REPEATINDEFINITELY = -1;
+  static const int REPEATINDEFINITELY = -1;
   List<Animation> animations;
   int currentPhaseIndex = 0;
   int repeatCount = 0;
