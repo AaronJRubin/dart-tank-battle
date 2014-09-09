@@ -11,7 +11,7 @@ int CANVASWIDTH = window.innerWidth;
 int CANVASHEIGHT = window.innerHeight;
 
 final Scene scene = new Scene();
-final Clock clock = new Clock(true);
+final Clock clock = new Clock(autoStart : true);
 Stage stage;
 
 final WebGLRenderer renderer = new WebGLRenderer();
