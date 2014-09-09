@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 //import 'package:paper_elements/paper_icon_button.dart';
-import 'player_input.dart';
+import 'custom-elements/player_input.dart';
 //import 'package:paper_elements/paper_toggle_button.dart';
 import 'package:paper_elements/paper_button.dart';
 import 'stage.dart';
