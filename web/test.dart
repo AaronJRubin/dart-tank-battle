@@ -2,7 +2,6 @@ import 'dart:html';
 import 'package:three/three.dart';
 import 'package:vector_math/vector_math.dart' as vector;
 
-import 'clock.dart';
 import 'keyboard.dart';
 import 'player.dart';
 import 'stage.dart';
@@ -11,7 +10,7 @@ int CANVASWIDTH = window.innerWidth;
 int CANVASHEIGHT = window.innerHeight;
 
 final Scene scene = new Scene();
-final Clock clock = new Clock(autoStart : true);
+final Stopwatch stopwatch = new Stopwatch();
 Stage stage;
 
 final WebGLRenderer renderer = new WebGLRenderer();
@@ -54,6 +53,7 @@ main() {
   window.addEventListener('keyup', (Event e) => keyboard.onKeyUp(e));
   window.addEventListener('keydown', (Event e) => keyboard.onKeyDown(e));
   print("About to call update loop!");
+  stopwatch.start();
   updateLoop();
 }
 
@@ -145,10 +145,11 @@ void updatePlayers(Duration elapsedTime) {
 }
 
 void updateLoop() {
+  Duration elapsedTime = stopwatch.elapsed;
+  stopwatch.reset();
   CANVASWIDTH = window.innerWidth - 20;
   CANVASHEIGHT = window.innerHeight - 20;
   renderer.setSize(CANVASWIDTH, CANVASHEIGHT);
-  Duration elapsedTime = clock.getDelta();
   // print("About to call update players!");
   updatePlayers(elapsedTime);
   // print('About to call update bullest!');
