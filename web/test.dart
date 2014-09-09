@@ -29,13 +29,10 @@ void createDefaultPlayers() {
 main() {
   createDefaultPlayers();
   stage = new TestStage(scene);
-  print("Players initialized!");
   Element element = renderer.canvas;
   document.getElementById("gameCanvas").append(element);
   window.addEventListener('click', (Event e) => element.requestFullscreen());
   renderer.autoClear = false;
-  //stage = new NinePillarStage(pillarsMove : true);
-  print("Stage initialized!");
   stage.positionPlayersAppropriately(players);
   print("Players positioned!");
   for (RealisticMovementPlayer player in players) {
@@ -50,7 +47,6 @@ main() {
      * too late */
     player.updateMatrixWorld(force : true);
   }
-  print("Players added to scene!");
   for (Object3D model in stage.startingModels) {
     scene.add(model);
   }

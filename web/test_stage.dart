@@ -1,5 +1,9 @@
 part of stage;
 
+/**
+ * This class is a playground stage for inspecting and testing new game objects.
+ *
+ * The code in this class is frequently changed. */
 class TestStage extends Stage {
 
   static const double _SQUARESTAGEWIDTH = 10000.0;
