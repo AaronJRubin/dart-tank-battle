@@ -127,11 +127,12 @@ class LightningField extends Object3D {
     backupCube.position.y = (maximumY + minimumY) / 2;
     backupCube.position.z = (maximumZ + minimumZ) / 2; */
     //add(backupCube);
-    int particleCount = 3600;
     particles = new Geometry();
     double xRange = maximumX - minimumX;
     double yRange = maximumY - minimumY;
     double zRange = maximumZ - minimumZ;
+    double area = (xRange==0?1:xRange) * (yRange==0?1:yRange) * (zRange==0?1:zRange);
+    int particleCount = area ~/ 100;
     for (int p = 0; p < particleCount; p++) {
       double pX = minimumX + (random.nextDouble() * xRange);
       double pY = minimumY + (random.nextDouble() * yRange);
