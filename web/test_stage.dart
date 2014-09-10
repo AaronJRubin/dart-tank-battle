@@ -93,9 +93,9 @@ class TestStage extends Stage {
   }
 
   void _generateStartingModels() {
-    for (Mesh mesh in Stage._generateBubblyWalls(_SQUARESTAGEWIDTH)) {
+    /*for (Mesh mesh in Stage._generateBubblyWalls(_SQUARESTAGEWIDTH)) {
       startingModels.add(mesh);
-    }
+    }  */
     for (Mesh mesh in Stage._generateSkyMeshes(_ENVIRONMENTWIDTH)) {
       startingModels.add(mesh);
     }
