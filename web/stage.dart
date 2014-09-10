@@ -24,6 +24,7 @@ abstract class Stage {
   static const int MOVINGNINEPILLARSTAGE = 2;
   static const int LAVADEATHSTAGE = 3;
   static const int LAVADEATHSTAGENOWALLS = 4;
+  static const int TESTSTAGE = 5;
   static final Duration spawnInterval = new Duration(seconds: 1);
   static final Random random = new Random();
 
@@ -234,16 +235,18 @@ abstract class Stage {
   static List<Mesh> _makeAndPlaceWalls(MakePlaneFunction makePlane, double squareSideLength) {
     Mesh wallBack = makePlane(squareSideLength);
     wallBack.position.z = squareSideLength / 2;
-    //wallBack.rotation.x = PI;
+    wallBack.rotation.x = PI;
     Mesh wallFront = makePlane(squareSideLength);
     wallFront.position.z = -squareSideLength / 2;
-    // wallFront.rotation.x = PI;
+    wallFront.rotation.z = PI;
     Mesh wallLeft = makePlane(squareSideLength);
     wallLeft.rotation.y = 3 * PI / 2;
     wallLeft.position.x = squareSideLength / 2;
+    wallLeft.rotation.x = PI;
     Mesh wallRight = makePlane(squareSideLength);
     wallRight.rotation.y = PI / 2;
     wallRight.position.x = -squareSideLength / 2;
+    wallRight.rotation.x = PI;
     return [wallBack, wallFront, wallLeft, wallRight];
   }
 

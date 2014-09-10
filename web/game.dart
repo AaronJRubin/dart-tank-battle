@@ -47,6 +47,9 @@ class Game {
       case (Stage.LAVADEATHSTAGENOWALLS):
         stage = new LavaDeathStage(scene, walls: false);
         break;
+      case (Stage.TESTSTAGE):
+        stage = new TestStage(scene);
+        break;
       default:
         throw "Unrecognized stage ID";
     }
