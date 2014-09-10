@@ -165,15 +165,10 @@ class LightningField extends Object3D {
   }
 
   void update(Duration d) {
-    List<Vector3> newVertices = particles.vertices;
-    particles = new Geometry();
-    for (Vector3 vertex in newVertices) {
-      vertexRandomAdjust(vertex);
-      particles.vertices.add(vertex);
+    for (Vector3 vertex in particles.vertices) {
+         vertexRandomAdjust(vertex);
     }
-    remove(particleSystem);
-    particleSystem = new ParticleSystem(particles, material);
-    add(particleSystem);
+    particles['verticesNeedUpdate'] = true;
   }
 }
 
