@@ -12,7 +12,7 @@ class FireballLine extends Object3D {
 
   FireballLine({int fireballCount : 10, Set<int> toSkip}) {
     if (toSkip == null) {
-      toSkip == new Set<int>();
+      toSkip = new Set<int>();
     }
     fireballCount -= 1;
     while (fireballCount > 0) {
