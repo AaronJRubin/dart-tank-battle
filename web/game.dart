@@ -22,6 +22,8 @@ class Game {
     return _CANVASHEIGHT;
   }
 
+  bool get done => players.length == 0;
+
   final Scene scene = new Scene();
 
   final WebGLRenderer renderer = new WebGLRenderer();
