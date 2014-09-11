@@ -7,8 +7,20 @@ import 'package:vector_math/vector_math.dart' as vector;
 
 class Game {
 
-  int CANVASWIDTH = window.innerWidth;
-  int CANVASHEIGHT = window.innerHeight;
+  /// _CANVASWIDTH resizes dynamically on each render.
+  /// Hence, it should not be set from outside.
+  int _CANVASWIDTH = window.innerWidth;
+  /// _CANVASHEIGHT resizes dynamically on each render.
+  /// Hence, it should not be set from outside.
+  int _CANVASHEIGHT = window.innerHeight;
+
+  int get CANVASWIDTH {
+    return _CANVASWIDTH;
+  }
+
+  int get CANVASHEIGHT {
+    return _CANVASHEIGHT;
+  }
 
   final Scene scene = new Scene();
   final Stopwatch stopwatch = new Stopwatch();
@@ -77,7 +89,7 @@ class Game {
     stopwatch.start();
   }
 
-  void updateBullets(Duration elapsedTime) {
+  void _updateBullets(Duration elapsedTime) {
     // print("About to call stage.handleBulletWorldInteraction!");
     stage.handleBulletWorldInteraction(bullets);
     // print("Successfully exited stage.handleBulletWorldInteraction!");
@@ -116,7 +128,7 @@ class Game {
     }
   }
 
-  void updatePlayers(Duration elapsedTime) {
+  void _updatePlayers(Duration elapsedTime) {
     stage.handlePlayerWorldInteraction(players, elapsedTime);
     stage.handlePlayerItemInteraction(players);
     List<RealisticMovementPlayer> toRemove = new List<RealisticMovementPlayer>();
@@ -164,29 +176,29 @@ class Game {
   }
 
   void update(Duration elapsedTime) {
-    CANVASWIDTH = window.innerWidth - 20;
-    CANVASHEIGHT = window.innerHeight - 20;
-    renderer.setSize(CANVASWIDTH, CANVASHEIGHT);
+    _CANVASWIDTH = window.innerWidth - 20;
+    _CANVASHEIGHT = window.innerHeight - 20;
+    renderer.setSize(_CANVASWIDTH, _CANVASHEIGHT);
     // print("About to call update players!");
-    updatePlayers(elapsedTime);
+    _updatePlayers(elapsedTime);
     // print('About to call update bullest!');
-    updateBullets(elapsedTime);
+    _updateBullets(elapsedTime);
     // print('About to call stage.update!');
     stage.update(elapsedTime);
     // print("About to render appropriately!");
-    renderAppropriately();
+    _renderAppropriately();
   }
 
-  void renderAppropriately() {
+  void _renderAppropriately() {
     if (players.length == 1) {
-      renderer.setViewport(0, 0, CANVASWIDTH, CANVASHEIGHT);
-      players[0].updateCameraAspectRatio(CANVASWIDTH / CANVASHEIGHT);
+      renderer.setViewport(0, 0, _CANVASWIDTH, _CANVASHEIGHT);
+      players[0].updateCameraAspectRatio(_CANVASWIDTH / _CANVASHEIGHT);
       renderer.render(scene, players[0].camera);
       return;
     }
     if (players.length == 2) {
-      int width = CANVASWIDTH;
-      int height = CANVASHEIGHT ~/ 2;
+      int width = _CANVASWIDTH;
+      int height = _CANVASHEIGHT ~/ 2;
       renderer.setViewport(0, height, width, height);
       players[0].updateCameraAspectRatio(width / height);
       renderer.render(scene, players[0].camera);
@@ -196,22 +208,22 @@ class Game {
       return;
     }
     if (players.length == 3) {
-      int width = CANVASWIDTH ~/ 2;
-      int height = CANVASHEIGHT ~/ 2;
+      int width = _CANVASWIDTH ~/ 2;
+      int height = _CANVASHEIGHT ~/ 2;
       renderer.setViewport(0, height, width, height);
       players[0].updateCameraAspectRatio(width / height);
       renderer.render(scene, players[0].camera);
       renderer.setViewport(width, height, width, height);
       players[1].updateCameraAspectRatio(width / height);
       renderer.render(scene, players[1].camera);
-      width = CANVASWIDTH;
+      width = _CANVASWIDTH;
       renderer.setViewport(0, 0, width, height);
       players[2].updateCameraAspectRatio(width / height);
       renderer.render(scene, players[2].camera);
     }
     if (players.length == 4) {
-      int width = CANVASWIDTH ~/ 2;
-      int height = CANVASHEIGHT ~/ 2;
+      int width = _CANVASWIDTH ~/ 2;
+      int height = _CANVASHEIGHT ~/ 2;
       renderer.setViewport(0, height, width, height);
       players[0].updateCameraAspectRatio(width / height);
       renderer.render(scene, players[0].camera);
