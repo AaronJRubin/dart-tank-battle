@@ -3,9 +3,10 @@ import 'stage.dart';
 import 'keyboard.dart';
 import 'player.dart';
 import 'dart:html';
+import 'animation.dart' as animation;
 import 'package:vector_math/vector_math.dart' as vector;
 
-class Game {
+class Game extends animation.Animation {
 
   /// _CANVASWIDTH resizes dynamically on each render.
   /// Hence, it should not be set from outside.
@@ -24,7 +25,7 @@ class Game {
 
   bool get done => players.length == 0;
 
-  final Scene scene = new Scene();
+  Scene scene = new Scene();
 
   final WebGLRenderer renderer = new WebGLRenderer();
   final Keyboard keyboard = new Keyboard();
@@ -33,6 +34,11 @@ class Game {
   List<RealisticMovementPlayer> players;
   List<Bullet> bullets = new List<Bullet>();
 
+  /// playerMaps are remembered to restart the game with fresh players
+  final List<Map> playerMaps = new List<Map>();
+  /// stageID is remembered to restart the game with a clean stage
+  final int stageID;
+
   static List<RealisticMovementPlayer> generateDefaultPlayers() {
     List<RealisticMovementPlayer> toReturn = new List<RealisticMovementPlayer>();
     toReturn.add(new RealisticMovementPlayer(upKey: KeyCode.W, rightKey: KeyCode.D, downKey: KeyCode.S, leftKey: KeyCode.A, hue: 0.2, name: 'Steve'));
@@ -40,7 +46,7 @@ class Game {
     return toReturn;
   }
 
-  Game(Element canvas, {this.players, int stageID: Stage.NINEPILLARSTAGE}) {
+  Game(Element canvas, {this.players, this.stageID: Stage.NINEPILLARSTAGE}) {
     if (players == null) {
       players = generateDefaultPlayers();
     }
@@ -73,6 +79,7 @@ class Game {
     stage.positionPlayersAppropriately(players);
     for (RealisticMovementPlayer player in players) {
       scene.add(player);
+      playerMaps.add(player.startingConfigurationMap);
       /* If you don't update the matrix world as below,
          * the lag in the automatic update will result in
          * spurious collisions when those collisions are calculated
@@ -87,6 +94,46 @@ class Game {
       scene.add(model);
     }
     keyboard.bindToWindow();
+  }
+
+  void restart() {
+    scene = new Scene();
+    bullets.clear();
+    players.clear();
+    switch (stageID) {
+      case (Stage.BASICSTAGE):
+        stage = new BasicStage(scene);
+        break;
+      case (Stage.NINEPILLARSTAGE):
+        stage = new NinePillarStage(scene, pillarsMove: false);
+        break;
+      case (Stage.MOVINGNINEPILLARSTAGE):
+        stage = new NinePillarStage(scene, pillarsMove: true);
+        break;
+      case (Stage.LAVADEATHSTAGE):
+        stage = new LavaDeathStage(scene, walls: true);
+        break;
+      case (Stage.LAVADEATHSTAGENOWALLS):
+        stage = new LavaDeathStage(scene, walls: false);
+        break;
+      case (Stage.TESTSTAGE):
+        stage = new TestStage(scene);
+        break;
+      default:
+        throw "Unrecognized stage ID";
+    }
+    for (Map playerMap in playerMaps) {
+      RealisticMovementPlayer player = new RealisticMovementPlayer.fromMap(playerMap);
+      players.add(player);
+    }
+    stage.positionPlayersAppropriately(players);
+    for (RealisticMovementPlayer player in players) {
+      scene.add(player);
+      player.updateMatrixWorld(force: true);
+    }
+    for (Object3D model in stage.startingModels) {
+      scene.add(model);
+    }
   }
 
   void _updateBullets(Duration elapsedTime) {
@@ -176,6 +223,7 @@ class Game {
   }
 
   void update(Duration elapsedTime) {
+    if (!done) {
     _CANVASWIDTH = window.innerWidth - 20;
     _CANVASHEIGHT = window.innerHeight - 20;
     renderer.setSize(_CANVASWIDTH, _CANVASHEIGHT);
@@ -187,6 +235,7 @@ class Game {
     stage.update(elapsedTime);
     // print("About to render appropriately!");
     _renderAppropriately();
+    }
   }
 
   void _renderAppropriately() {
@@ -240,4 +289,3 @@ class Game {
   }
 
 }
-

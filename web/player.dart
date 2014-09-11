@@ -54,6 +54,8 @@ class RealisticMovementPlayer extends Player {
     }
   }
 
+  Map get startingConfigurationMap => {'name' : name, 'left' : leftKey, 'right' : rightKey, 'reverse' : downKey, 'accelerate' : upKey, 'hue' : material.color.HSL[0]};
+
   /**
    * The rotation angle occasionally needs to be set or read from outside,
    * so it is not private. For instance, the stage may need to

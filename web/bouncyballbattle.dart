@@ -42,5 +42,8 @@ void updateLoop() {
   Duration elapsedTime = stopwatch.elapsed;
   stopwatch.reset();
   game.update(elapsedTime);
+  if (game.done) {
+    game.restart();
+  }
   window.requestAnimationFrame((e) => updateLoop());
 }
