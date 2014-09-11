@@ -7,7 +7,6 @@ Stopwatch stopwatch = new Stopwatch();
 
 main() {
   Element gameCanvas = document.getElementById("gameCanvas");
-  Storage localStorage = window.localStorage;
   game = new Game(gameCanvas, stageID : Stage.TESTSTAGE);
   stopwatch.start();
   updateLoop();
