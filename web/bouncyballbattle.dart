@@ -7,24 +7,6 @@ import 'game.dart';
 Stopwatch stopwatch = new Stopwatch();
 Game game;
 
-RealisticMovementPlayer playerFromPolymerMap(Map playerMap) {
-  String name = playerMap['name'];
-  int leftKey = playerMap['left'];
-  int rightKey = playerMap['right'];
-  int accelerateKey = playerMap['accelerate'];
-  int reverseKey = playerMap['reverse'];
-  double hue = playerMap['hue'];
-  if (name == null || leftKey == null || rightKey == null || accelerateKey == null || reverseKey == null || hue == null) {
-   // print("Null value found, raising an exception!");
-    throw new Exception();
-  } else {
-   // print("Let's initialize a new player!");
-    RealisticMovementPlayer toReturn = new RealisticMovementPlayer(name: name, upKey: accelerateKey, rightKey: rightKey, downKey: reverseKey, leftKey: leftKey, hue: hue);
-   // print("New player initialized! About to return him.");
-    return toReturn;
-  }
-}
-
 main() {
   Element gameCanvas = document.getElementById("gameCanvas");
   Storage localStorage = window.localStorage;
@@ -43,7 +25,7 @@ main() {
       }
       List<RealisticMovementPlayer> players = new List<RealisticMovementPlayer>();
       for (Map playerMap in playerMaps) {
-        players.add(playerFromPolymerMap(playerMap));
+        players.add(new RealisticMovementPlayer.fromMap(playerMap));
       }
       int stageID = settings['stage'];
       game = new Game(gameCanvas, players : players, stageID : stageID);
@@ -55,7 +37,6 @@ main() {
   stopwatch.start();
   updateLoop();
 }
-
 
 void updateLoop() {
   Duration elapsedTime = stopwatch.elapsed;

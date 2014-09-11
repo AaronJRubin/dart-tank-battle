@@ -36,6 +36,24 @@ class RealisticMovementPlayer extends Player {
     _registerUpdateAction(updateActions);
   }
 
+  factory RealisticMovementPlayer.fromMap(Map playerMap) {
+    String name = playerMap['name'];
+    int leftKey = playerMap['left'];
+    int rightKey = playerMap['right'];
+    int accelerateKey = playerMap['accelerate'];
+    int reverseKey = playerMap['reverse'];
+    double hue = playerMap['hue'];
+    if (name == null || leftKey == null || rightKey == null || accelerateKey == null || reverseKey == null || hue == null) {
+      // print("Null value found, raising an exception!");
+      throw "Null value in player map";
+    } else {
+      // print("Let's initialize a new player!");
+      RealisticMovementPlayer toReturn = new RealisticMovementPlayer(name: name, upKey: accelerateKey, rightKey: rightKey, downKey: reverseKey, leftKey: leftKey, hue: hue);
+      // print("New player initialized! About to return him.");
+      return toReturn;
+    }
+  }
+
   /**
    * The rotation angle occasionally needs to be set or read from outside,
    * so it is not private. For instance, the stage may need to
@@ -217,7 +235,7 @@ class RealisticMovementPlayer extends Player {
     } else if (!incapacitatedDueToMessingWithStage && !_swellingDueToImminentDeath) {
       _processKeyboardInputs(board, elapsedTime);
     }
-   // this.rotation.y = rotationAngleDegrees * PI / 180.0;
+    // this.rotation.y = rotationAngleDegrees * PI / 180.0;
     _handleFriction(elapsedTime);
     _move(elapsedTime);
   }
@@ -268,7 +286,7 @@ class RealisticMovementPlayer extends Player {
   }
 
   void _handleFriction(Duration elapsedTime) {
-   /* if (_voluntarySpeed == 0.0 && _involuntarySpeed == 0) {
+    /* if (_voluntarySpeed == 0.0 && _involuntarySpeed == 0) {
       return;
     } */
     _voluntarySpeed = _computeFriction(_voluntarySpeed, elapsedTime);//, frictionConstant: 0.0001);
