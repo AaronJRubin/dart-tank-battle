@@ -23,7 +23,6 @@ class Game {
   }
 
   final Scene scene = new Scene();
-  final Stopwatch stopwatch = new Stopwatch();
 
   final WebGLRenderer renderer = new WebGLRenderer();
   final Keyboard keyboard = new Keyboard();
@@ -86,7 +85,6 @@ class Game {
       scene.add(model);
     }
     keyboard.bindToWindow();
-    stopwatch.start();
   }
 
   void _updateBullets(Duration elapsedTime) {
