@@ -72,7 +72,7 @@ class BasicStage extends Stage {
     }
 
   void _generateStartingModelsAndDeathPillars(bool simpleGraphics) {
-    for (Mesh mesh in Stage._generateBubblyWalls(_SQUARESTAGEWIDTH)) {
+    for (Mesh mesh in Stage._generateWalls(_SQUARESTAGEWIDTH)) {
       startingModels.add(mesh);
     }
     for (Mesh mesh in Stage._generateSkyMeshes(_ENVIRONMENTWIDTH)) {

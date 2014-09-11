@@ -123,7 +123,7 @@ abstract class Stage {
 
   static Mesh _generateGround(double squareSideLength, {Texture texture}) {
     if (texture == null) {
-      texture = loadTexture('mulch-tiled.jpg');
+      texture = loadTexture('general-purpose-textures/mulch-tiled.jpg');
       texture.wrapS = texture.wrapT = RepeatWrapping;
       texture.repeat.setValues(8.0, 8.0);
       texture.generateMipmaps = true;
@@ -170,7 +170,7 @@ abstract class Stage {
   }
 
   static Mesh _generateSea(double squareSideLength) {
-    Texture texture = loadTexture('water.jpg');
+    Texture texture = loadTexture('general-purpose-textures/water.jpg');
     //texture.wrapS = texture.wrapT = RepeatWrapping;
     MeshBasicMaterial groundMaterial = new MeshBasicMaterial();
     groundMaterial.map = texture;//map : texture);
@@ -180,12 +180,12 @@ abstract class Stage {
     return ground;
   }
 
-  static List<Mesh> _generateBubblyWalls(double squareSideLength) {
-    return _makeAndPlaceWalls(_generateBubblyWall, squareSideLength);
+  static List<Mesh> _generateWalls(double squareSideLength) {
+    return _makeAndPlaceWalls(_generateWall, squareSideLength);
   }
 
-  static Mesh _generateBubblyWall(double squareSideLength) {
-    Texture texture = loadTexture('bubbles.jpg');
+  static Mesh _generateWall(double squareSideLength) {
+    Texture texture = loadTexture('lava-stage-textures/william_wall_01_S.png');
     /*   Texture texture = loadTexture('blue_coal.png');
     texture.wrapS = texture.wrapT = RepeatWrapping;
     texture.repeat.setValues(8.0,  8.0); */
@@ -266,7 +266,7 @@ abstract class Stage {
   }
 
   static Mesh _generateSky(double squareSideLength) {
-    Texture texture = loadTexture('clouds.jpg');
+    Texture texture = loadTexture('general-purpose-textures/clouds.jpg');
     texture.generateMipmaps = false;
     MeshBasicMaterial skyMaterial = new MeshBasicMaterial(side: DoubleSide);
     skyMaterial.map = texture;

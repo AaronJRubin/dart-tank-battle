@@ -570,7 +570,7 @@ class Player extends Object3D {
      * printed the annoying error messages. That is
      * what I ended up doing */
   static Texture _generatePlainWhiteTexture() {
-    Texture toReturn = loadTexture("plain_white.jpg");
+    Texture toReturn = loadTexture("general-purpose-textures/plain_white.jpg");
     toReturn.generateMipmaps = false;
     return toReturn;
   }
