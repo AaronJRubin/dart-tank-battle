@@ -44,7 +44,9 @@
  </div>
    <paper-button id="play-button">Play!</paper-button>
    <h1>About this Game</h1>
-   <p>This is a simple tank shooting game, implemented in the Dart programming language and designed to be played by multiple players around a single keyboard.</p>
+   <p>This is a simple tank shooting game, implemented in the Dart programming language and designed
+   to be played by multiple players around a single keyboard. The source code is available at <a
+   href="https://github.com/AaronJRubin/dart-tank-battle">https://github.com/AaronJRubin/dart-tank-battle</a>.</p>
    <p>The controls were designed to minimize the amount of keys that would need to be processed simultaneously. No more than
    two keys should be pressed at the same time per player! This concern motivated my decision to make shooting automatic,
    rather than player-controlled.</p>
@@ -56,6 +58,11 @@
    <a href="http://www.polymer-project.org/docs/elements/paper-elements.html">Paper elements</a>, for various user interface elements on this
    game settings page. It should be noted that WebGL is a fairly new technology that does not necessarily work in all browsers.
    Chrome and Firefox are fine, but support in Internet Explorer and Safari is only partial and not sufficient for this game.</p>
+   <p>It should also be noted that transparency (needed for particle effects like those in the Nine Pillar Lightning Stage)
+   does not always work as it should, depending upon a variety of WebGL performance-related factors that are outside
+   of the programmer's control. Details about this issue are discussed in the README at the github repository. Here, let it suffice to
+   say that if you encounter some troubles with invisible obstacles in the Nine Pillar Lightning Stage, this is the reason! Depending
+   upon your computer's GPU, however, you may not have any troubles at all.
    <p>While the actual models used in this game were created by me from geometric primitives (spheres, cylinders, etc.), the textures
    were downloaded from the internet. My sources were the following:</p>
    <ul>
