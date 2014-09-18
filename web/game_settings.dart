@@ -25,6 +25,7 @@ main() {
  * For more information about the lazy initialization of statics,
  * see https://groups.google.com/a/dartlang.org/forum/#!topic/misc/dKurFjODRXQ
    */
+
 void preloadTextures() {
   loadTexture('lava-stage-textures/boiled_flesh.jpg');
   loadTexture('lava-stage-textures/lava.jpg');
@@ -37,6 +38,7 @@ void preloadTextures() {
   loadTexture('night-sky/nightsky_left.jpg');
   loadTexture('night-sky/nightsky_right.jpg');
   loadTexture('night-sky/nightsky_top.jpg');
+  loadTexture('general-purpose-textures/plain_white.jpg');
 }
 
 void play() {
