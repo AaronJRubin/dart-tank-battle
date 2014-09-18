@@ -15,4 +15,6 @@ The entry point for the user of this application is game-settings.html, where th
  <player-input id="player-4" leftKey="7" rightKey="9" accelerateKey="8" reverseKey="0" color="GREEN" name="Player 4"></player-input>
 ```
 
+Polymer's disadvantage is that it is currently in "developer preview," and still has a few quirks and bugs that need to be ironed out before it is really production-ready. It also does not play well with Safari at the time of the writing of this document.
+
 After choosing settings and pressing the "Play" button, the settings are saved in HTML5 local browser storage and the user is taken to bouncy-ball-battle.html, where the script in bouncyballbattle.dart is run. This script reads the settings from local storage, initializes a list of RealisticMovementPlayers and a Stage accordingly, and starts a game loop in which the function updateLoop is called once per animation frame. This function uses a top-level defined instance of the Stopwatch class to determine the time elapsed since the previous animation frame and updates game objects (including players, bullets, and items) accordingly, as well as actually rendering the scene. A top-level defined instance of the Keyboard class, which keeps track of currently pressed keys, is passed to the players on each update, and this is how keyboard input is handled.
