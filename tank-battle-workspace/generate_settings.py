@@ -40,7 +40,7 @@ player3 = PlayerFormInput("Three", "G", "J", "Y", "H", color = 'YELLOW')
 player4 = PlayerFormInput("Four", "7", "9", "8", "0", color = 'BLUE')
 players = [player1, player2, player3, player4]
 
-renderedPage = render_str("game-settings.html", players = players)
+renderedPage = render_str("game-settings-template.html", players = players)
 
 file = open("web/game-settings.html", "w")
 

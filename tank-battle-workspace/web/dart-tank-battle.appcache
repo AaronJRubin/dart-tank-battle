@@ -15,8 +15,8 @@ NETWORK:
 
 # Additional resources to cache
 CACHE:
-bouncyballbattle.dart.js
-bouncyballbattle.dart.precompiled.js
+bouncy_ball_battle.dart.js
+bouncy_ball_battle.dart.precompiled.js
 
 game_settings.dart.js
 game_settings.dart.precompiled.js
