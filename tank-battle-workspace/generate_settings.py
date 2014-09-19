@@ -42,4 +42,6 @@ players = [player1, player2, player3, player4]
 
 renderedPage = render_str("game-settings.html", players = players)
 
-print(renderedPage)
+file = open("web/game-settings.html", "w")
+
+file.write(renderedPage)
