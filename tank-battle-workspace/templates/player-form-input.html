@@ -4,81 +4,71 @@
 Player {{player.number}} Settings:
 </h2>
 
-<div>  
+<div>
 <label>
 Rotate Left Key:
-<div>
 <select name="{{player.number}}-rotate-left" id = "{{player.number}}-rotate-left">
   {% for key in keys %}
   <option value="{{key}}" {% if key == player.left
     %}selected{% endif %}>{{key}}</option>
   {% endfor %}
 </select>
-</div>
 </label>
 </div>
 
 <div>
 <label>
 Rotate Right Key:
-<div>
 <select name="{{player.number}}-rotate-right" id="{{player.number}}-rotate-right">
   {% for key in keys %}
   <option value="{{key}}" {% if key == player.right
     %}selected{% endif %}>{{key}}</option>
   {% endfor %}
 </select>
-</div>
 </label>
 </div>
 
 <div>
 <label>
 Accelerate Key:
-<div>
 <select name="{{player.number}}-accelerate" id="{{player.number}}-accelerate" >
   {% for key in keys %}
   <option value="{{key}}" {% if key == player.accelerate
     %}selected{% endif %}>{{key}}</option>
   {% endfor %}
 </select>
-</div>
 </label>
 </div>
 
 <div>
 <label>
 Reverse Key:
-<div>
 <select name="{{player.number}}-reverse" id="{{player.number}}-reverse">
   {% for key in keys %}
   <option value="{{key}}" {% if key == player.reverse
     %}selected{% endif %}>{{key}}</option>
   {% endfor %}
 </select>
-</div>
 </label>
 </div>
 
 <div>
 <label>
 Color:
-<div>
 <select name="{{player.number}}-color" id="{{player.number}}-color">
   {% for color in colors %}
    <option value="{{color}}" {% if color == player.color
     %}selected{% endif %}>{{color}}</option>
   {% endfor %}
 </select>
-</div>
 </label>
 </div>
 
-<div>
-<label>
-Use this player:
+<div>Use:
+<div class="checkbox-div">
 <input type = "checkbox" name="{{player.number}}-use" id="{{player.number}}-use" value="use">
-</label>
+<label for="{{player.number}}-use"></label>
+</div>
 </div>
 
 </div>

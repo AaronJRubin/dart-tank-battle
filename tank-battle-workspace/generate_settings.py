@@ -36,7 +36,7 @@ def render_str(template, **params):
 
 player2 = PlayerFormInput("Two")
 player1 = PlayerFormInput("One", "A", "D", "W", "S", color = 'GREEN')
-player3 = PlayerFormInput("Three", "J", "L", "I", "K", color = 'YELLOW')
+player3 = PlayerFormInput("Three", "G", "J", "Y", "H", color = 'YELLOW')
 player4 = PlayerFormInput("Four", "7", "9", "8", "0", color = 'BLUE')
 players = [player1, player2, player3, player4]
 

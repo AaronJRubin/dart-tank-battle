@@ -4,9 +4,13 @@ import 'package:three/extras/image_utils.dart';
 import 'dart:convert';
 
 main() {
+  preloadTextures();
   ButtonElement playButton = document.querySelector(".play-button");
   playButton.onClick.listen((event) => play());
-  preloadTextures();
+  InputElement playerOneCheckbox = document.querySelector("#One-use");
+  playerOneCheckbox.checked = true;
+  InputElement playerTwoCheckbox = document.querySelector("#Two-use");
+  playerTwoCheckbox.checked = true;
 }
 
 /* Load these into the browser cache before the game begins,
@@ -196,45 +200,3 @@ void play() {
     print("About to redirect!");
     window.location.assign("bouncy-ball-battle.html");
 }
-/*
-void play() {
-  List<PlayerInput> playerInputs = document.getElementsByTagName('player-input');
-  List<Map> playerMaps = [];
-  for (PlayerInput playerInput in playerInputs) {
-    Map playerMap = playerInput.getPlayerMap();
-    if (playerMap != null) {
-     // print(playerMap.toString());
-      playerMaps.add(playerMap);
-    }
-  }
-  Map settings = {};
-  settings['players'] = playerMaps;
-  SelectElement stageSelect = document.querySelector("#stage-select");
-  String selectedStageName = stageSelect.selectedOptions[0].value;
-  int selectedStage;
-  switch(selectedStageName) {
-    case ('basic-stage'):
-      selectedStage = Stage.BASICSTAGE;
-      break;
-    case('nine-pillar-stage'):
-      selectedStage = Stage.NINEPILLARSTAGE;
-      break;
-    case('nine-pillar-stage-mobile'):
-      selectedStage = Stage.MOVINGNINEPILLARSTAGE;
-      break;
-    case('lava-walls'):
-        selectedStage = Stage.LAVADEATHSTAGE;
-        break;
-    case ('lava-no-walls'):
-      selectedStage = Stage.LAVADEATHSTAGENOWALLS;
-      break;
-    default:
-      selectedStage = Stage.BASICSTAGE;
-  }
-  settings['stage'] = selectedStage;
-  Storage localStorage = window.localStorage;
-  String settingsString = JSON.encode(settings);
- // print("The following settingsString was generated " + settingsString);
-  localStorage['settings'] = settingsString;
-  window.location.assign("bouncy-ball-battle.html");
-} */
