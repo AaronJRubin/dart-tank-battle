@@ -28,6 +28,11 @@ handlers:
   static_files: static/\1
   upload: static/(.*\.js)
 
+- url: /(.*\.dart)
+  mime_type: text/dart
+  static_files: static/\1
+  upload: static/(.*\.dart)
+
 - url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
   static_files: static/\1
   upload: static/(.*\.(bmp|gif|ico|jpeg|jpg|png))
