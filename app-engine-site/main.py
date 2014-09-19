@@ -37,7 +37,7 @@ class PlayerFormInput:
         self.color = color
 
     def render(self):
-        return render_str("playerforminput.html", player = self, keys = self.keys, colors = self.colors)
+        return render_str("player-form-input.html", player = self, keys = self.keys, colors = self.colors)
 
     def to_dic(self):
         to_return = {}
@@ -75,7 +75,7 @@ class BouncyBallBattleSettings(Handler):
         player3 = PlayerFormInput("3", "J", "L", "I", "K", color = 'YELLOW')
         player4 = PlayerFormInput("4", "7", "9", "8", "0", color = 'BLUE')
         players = [player1, player2, player3, player4]
-        self.render("gamesettings.html", players = players)
+        self.render("game-settings.html", players = players)
             
 class BouncyBallBattlePlay(Handler):
     def get(self):
