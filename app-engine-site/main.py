@@ -66,7 +66,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.redirect("/game-settings.html");
+        self.redirect("/bouncyballbattle/settings");
 
 class BouncyBallBattleSettings(Handler):    
     def get(self):

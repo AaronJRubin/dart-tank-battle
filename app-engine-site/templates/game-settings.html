@@ -1,10 +1,119 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="settings">
 <form class = "players-form">
 {% for player in players %}
 {{player.render()}}
 {% endfor %}
 <input class = "play-button" type="submit" value="Play" />
 </form>
+</div>
+
+<article>
+
+    <h1>About this Game</h1>
+    <p>
+      This is a simple tank shooting game, implemented in the Dart
+      programming language and designed to be played by multiple players
+      around a single keyboard. The source code is available at <a
+        href="https://github.com/AaronJRubin/dart-tank-battle">https://github.com/AaronJRubin/dart-tank-battle</a>.
+    </p>
+    <p>The controls were designed to minimize the amount of keys
+      that would need to be processed simultaneously. No more than two
+      keys should be pressed at the same time per player! This concern
+      motivated my decision to make shooting automatic, rather than
+      player-controlled.</p>
+    <p>Most keyboards only allow for up to six key-presses to be
+      registered at once. Consequently, playing this game with four
+      players, which would require up to eight simultaneous key-presses,
+      is not recommended unless you have a very high-end keyboard.</p>
+    <p>
+      Technologies used in this game include WebGL and <a
+        href="https://github.com/threeDart/three.dart">three.dart</a>
+      (for the game itself) and <a
+        href="http://www.polymer-project.org/">Polymer</a>, including
+      the recently released <a
+        href="http://www.polymer-project.org/docs/elements/paper-elements.html">Paper
+        elements</a>, for various user interface elements on this game
+      settings page. It should be noted that WebGL is a fairly new
+      technology that does not necessarily work in all browsers. Chrome
+      and Firefox are fine, but support in Internet Explorer and Safari
+      is only partial and not sufficient for this game.
+    </p>
+    <p>It should also be noted that transparency (needed for
+      particle effects like those in the Nine Pillar Lightning Stage)
+      does not always work as it should, depending upon a variety of
+      WebGL performance-related factors that are outside of the
+      programmer's control. Details about this issue are discussed in
+      the README at the github repository. Here, let it suffice to say
+      that if you encounter some troubles with invisible obstacles in
+      the Nine Pillar Lightning Stage, this is the reason! Depending
+      upon your computer's GPU, however, you may not have any troubles
+      at all.
+    <p>While the actual models used in this game were created by me
+      from geometric primitives (spheres, cylinders, etc.), the textures
+      were downloaded from the internet. My sources were the following:</p>
+    <ul>
+      <li>The texture used for the energy balls in the Nine Pillar
+        Lightning Stage was accessed from <a
+        href="http://orangepekoemedia.files.wordpress.com/2012/06/particleenergyball-ss-alleffects.png">here</a>.
+      </li>
+      <li>The texture used for the cloud floor of the Nine Pillar
+        Stage was obtained from <a
+        href="http://www.psd-dude.com/tutorials/resources-images/over-50-free-beautiful-clouds-textures-that-you-must-have/cloud--texture-3.jpg">here.</a>
+        The photographer's flickr can be accessed <a
+        href="https://www.flickr.com/photos/dobrych/">here.</a>
+      </li>
+      <li>The incredible skybox used for the Nine Pillar Stage was
+        accessed from <a href="http://www.redsorceress.com/skybox.html">http://www.redsorceress.com/skybox.html</a>,
+        entitled "Night Sky." Unfortunately, I could not determine the
+        original artist's name.
+      </li>
+      <li>The texture used for the floor of the Lava Death Stage
+        was made by Twister10, and accessed from <a
+        href="http://twister10.deviantart.com/art/Lava-texture-87252091">here</a>.
+      </li>
+      <li>The texture used for the lava balls and the lava pool in
+        the Lava Death Stage was accessed from <a
+        href="http://stemkoski.github.io/Three.js/images/lava.jpg">here</a>.
+        I do not believe that Mr./Ms. Stemkoski made this texture
+        himself, however, as this texture seems to be common in WebGL
+        examples. I haven't been able to find authoritative information
+        as to the original creator!
+      </li>
+      <li>The texture used for the volcano material in the Lava
+        Death Stage was made by Duion, released on <a
+        href="http://opengameart.org">opengameart.org</a>. <a
+        href="http://opengameart.org/content/williamwall01">Here</a> is
+        a direct link to the texture's page. The texture is apparently
+        based on a photo by someone whom Duion only names as "Williams."
+      </li>
+      <li>The texture used to signify that a player character has
+        been "burned" in the Lava Death Stage was made by someone named
+        mad-texture, and released on his deviantart. <a
+        href="http://mad-texture.deviantart.com/art/Boiled-Flesh-203355869">Here's
+          a link to the page!</a>
+      </li>
+    </ul>
+    <p>
+      Stage ideas and any other suggestions for making the game more
+      interesting are welcome! Please direct all such suggestions to
+      aaron<span id="dummy">REMOVE</span>jrubin1@<span id="dummy">REMOVE</span>gmail.com.
+      Keep in mind, though, the following points.
+    </p>
+    <ul>
+      <li>I have no intentions at this point of making this game
+        playable over the internet. Maybe some day, when it becomes more
+        convenient to run Dart on the server so I can share code between
+        the client and server ends!</li>
+      <li>Making shooting a player-initiated event would require
+        increasing the amount of simultaneous key-presses from multiple
+        players at once, so that is also off the table for the time
+        being.</li>
+    </ul>
+
+ </article>
+
+<script type="application/dart" src="game_settings.dart"></script>
 {% endblock %}
