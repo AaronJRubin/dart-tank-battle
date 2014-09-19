@@ -11,7 +11,9 @@ packages
 *.js.deps
 *.js.map
 
+
 .DS_Store
+*.pyc
 
 # Include when developing application packages.
 # pubspec.lock
