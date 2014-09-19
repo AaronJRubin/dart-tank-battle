@@ -37,7 +37,6 @@ table {
 }
 
 /* End Reset CSS */
-
 body {
   font-family: Tahoma, Geneva, sans-serif;
   font-size: 1rem;
@@ -72,7 +71,7 @@ li {
 
 p {
   line-height: 1.2rem;
-   margin: 0.5rem;
+  margin: 0.5rem;
 }
 
 .settings {
@@ -81,27 +80,27 @@ p {
 
 /* Start play button styles */
 .play-button {
-  -webkit-box-shadow:rgba(0,0,0,0.2) 0 1px 0 0;
-  -moz-box-shadow:rgba(0,0,0,0.2) 0 1px 0 0;
-  box-shadow:rgba(0,0,0,0.2) 0 1px 0 0;
-  border-bottom-color:#333;
-  border:1px solid #61c4ea;
-  background-color:#7cceee;
-  border-radius:5px;
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  color:#333;
-  font-family:'Verdana',Arial,sans-serif;
-  font-size:1rem;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 0 0;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 0 0;
+  border-bottom-color: #333;
+  border: 1px solid #61c4ea;
+  background-color: #7cceee;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  color: #333;
+  font-family: 'Verdana', Arial, sans-serif;
+  font-size: 1rem;
   /*text-shadow:#b2e2f5 0 1px 0; */
-  padding:5px;
+  padding: 5px;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
 .play-button:hover {
   background: #2a56c6;
-  border:1px solid #2a56c6;
+  border: 1px solid #2a56c6;
 }
 
 /* End play button styles */
@@ -127,42 +126,55 @@ a:focus,a:active {
 }
 
 /* End link styles */
-
 select {
-   border: 0 none;
-   color: #FFFFFF;
-   background-color: #111111;
-   font-size: 1.1rem;
-   font-weight: bold;
-   padding: 2px 10px;
+  border: 0 none;
+  color: #FFFFFF;
+  background-color: #111111;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 2px 10px;
 }
 
 /* Start styles for player input UI */
-
 .settings {
   width: 80%;
   margin: auto;
 }
 
-.player-form-input > div {
-  vertical-align: top;
+.player-form-input>div {
   display: inline-block;
   width: 15.5%;
 }
 
-@media (max-width: 600px) {
-  .player-form-input > div {
+@media ( max-width : 920px) {
+  .player-form-input>div {
     width: 32%;
   }
 }
+
+@media ( max-width : 460px) {
+  .player-form-input>div {
+    width: 49%;
+  }
+}
+
 
 .player-form-input select {
   width: 100%;
 }
 
 /* Fancy checkbox begins here */
+
+/* This keeps the fancy checkbox aligned with the other inputs.
+Unfortunately, at certain screen dimensions, it jumps up above them,
+which is unsightly and unfortunate */
+
+.checkbox-wrapper {
+  vertical-align: top;
+}
+
 .checkbox-div {
-  margin-top: 3px;
+  margin-top: 3px; /* This makes it line up better with selects on the same line */
   height: 20px;
   background: #333;
   border-radius: 50px;
@@ -184,7 +196,6 @@ select {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-
   -webkit-transition: all .5s ease;
   -moz-transition: all .5s ease;
   -o-transition: all .5s ease;
@@ -192,13 +203,13 @@ select {
   transition: all .5s ease;
   cursor: pointer;
   position: absolute;
-  top: -1px;
-  z-index: 1;
+  top: -1px; z-index : 1;
   left: 12px;
   background: #ddd;
+  z-index: 1
 }
 
-.checkbox-div input[type=checkbox]:checked + label {
+.checkbox-div input[type=checkbox]:checked+label {
   left: 75%;
   background: #26ca28;
 }
@@ -210,6 +221,8 @@ input[type=checkbox] {
 /* Fancy checkbox ends here */
 /* End styles for player input UI */
 
-#dummy {
+/* This is to hide my e-mail address from web crawlers
+Makes more sense as a class, but only IDs work for some reason */
+.dummy {
   display: none
 }

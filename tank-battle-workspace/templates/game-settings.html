@@ -2,11 +2,15 @@
 
 {% block content %}
 <div class="settings">
+<ol>
 {% for player in players %}
+<li>
 {{player.render()}}
+</li>
 {% endfor %}
+</ol>
 <div>
- <label>Select a stage: 
+ <label>Select a stage:
   <select id="stage-select">
           <option value="lava-walls">Lava Death Stage</option>
           <option value="lava-no-walls">Wall-Free Lava Death
@@ -111,7 +115,7 @@
     <p>
       Stage ideas and any other suggestions for making the game more
       interesting are welcome! Please direct all such suggestions to
-      aaron<span id="dummy">REMOVE</span>jrubin1@<span id="dummy">REMOVE</span>gmail.com.
+      aaron<span class="dummy">REMOVE</span>jrubin1@<span class="dummy">REMOVE</span>gmail.com.
       Keep in mind, though, the following points.
     </p>
     <ul>
