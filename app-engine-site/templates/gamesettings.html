@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form class = "players-form" method=post>
+<form class = "players-form">
 {% for player in players %}
 {{player.render()}}
 {% endfor %}
-<label>Use Simple Graphics (recommended for less powerful computers):
-<input type="checkbox" name="use-simple-graphics" value="simple"/>
-</label>
 <input class = "play-button" type="submit" value="Play" />
 </form>
 {% endblock %}
