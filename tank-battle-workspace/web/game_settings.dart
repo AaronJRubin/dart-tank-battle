@@ -4,7 +4,7 @@ import 'package:three/extras/image_utils.dart';
 import 'dart:convert';
 
 main() {
-  preloadTextures();
+ /* preloadTextures(); */
   ButtonElement playButton = document.querySelector(".play-button");
   playButton.onClick.listen((event) => play());
   InputElement playerOneCheckbox = document.querySelector("#One-use");
