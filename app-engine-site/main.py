@@ -70,10 +70,10 @@ class MainHandler(Handler):
 
 class BouncyBallBattleSettings(Handler):    
     def get(self):
-        player2 = PlayerFormInput("2")
-        player1 = PlayerFormInput("1", "A", "D", "W", "S", color = 'GREEN')
-        player3 = PlayerFormInput("3", "J", "L", "I", "K", color = 'YELLOW')
-        player4 = PlayerFormInput("4", "7", "9", "8", "0", color = 'BLUE')
+        player2 = PlayerFormInput("Two")
+        player1 = PlayerFormInput("One", "A", "D", "W", "S", color = 'GREEN')
+        player3 = PlayerFormInput("Three", "J", "L", "I", "K", color = 'YELLOW')
+        player4 = PlayerFormInput("Four", "7", "9", "8", "0", color = 'BLUE')
         players = [player1, player2, player3, player4]
         self.render("game-settings.html", players = players)
             

@@ -1,16 +1,10 @@
 import 'dart:html';
-import 'package:polymer/polymer.dart';
-//import 'package:paper_elements/paper_icon_button.dart';
-import 'custom-elements/player_input.dart';
-//import 'package:paper_elements/paper_toggle_button.dart';
-import 'package:paper_elements/paper_button.dart';
 import 'stage.dart';
 import 'package:three/extras/image_utils.dart';
 import 'dart:convert';
 
 main() {
-  initPolymer();
-  PaperButton playButton = document.querySelector("#play-button");
+  ButtonElement playButton = document.querySelector(".play-button");
   playButton.onClick.listen((event) => play());
   preloadTextures();
 }
@@ -149,21 +143,27 @@ void preloadTextures() {
     }
 
 Map getPlayerMap(String playerID) {
-  SelectElement leftKeySelector = document.querySelector(playerID + "-rotate-left");
+  SelectElement leftKeySelector = document.querySelector("#" + playerID + "-rotate-left");
   int leftKey = stringToKeyCode(leftKeySelector.selectedOptions.first.value);
-  SelectElement rightKeySelector = document.querySelector(playerID + "-rotate-right");
+  SelectElement rightKeySelector = document.querySelector("#" + playerID + "-rotate-right");
   int rightKey = stringToKeyCode(rightKeySelector.selectedOptions.first.value);
-  SelectElement accelerateKeySelector = document.querySelector(playerID + "-accelerate");
+  SelectElement accelerateKeySelector = document.querySelector("#" + playerID + "-accelerate");
   int accelerateKey = stringToKeyCode(accelerateKeySelector.selectedOptions.first.value);
-  SelectElement reverseKeySelector = document.querySelector(playerID + "-reverse");
+  SelectElement reverseKeySelector = document.querySelector("#" + playerID + "-reverse");
   int reverseKey = stringToKeyCode(reverseKeySelector.selectedOptions.first.value);
-  SelectElement colorSelector = document.querySelector(playerID + "-color");
+  SelectElement colorSelector = document.querySelector("#" + playerID + "-color");
   double hue = stringToHue(colorSelector.selectedOptions.first.value);
   return {'left' : leftKey, 'right' : rightKey, 'accelerate' : accelerateKey, 'reverse' : reverseKey, 'hue' : hue, 'name' : 'Player' + playerID};
 }
 
+bool isSelected(String playerID) {
+  InputElement checkbox = document.querySelector("#" + playerID + "-use");
+  return checkbox.checked;
+}
+
 void play() {
-  List<Map> playerMaps = ["1", "2", "3", "4"].map(getPlayerMap);
+  print("Play function has been called!");
+  List<Map> playerMaps = ["One", "Two", "Three", "Four"].where(isSelected).map(getPlayerMap).toList();
   Map settings = {};
   settings['players'] = playerMaps;
   SelectElement stageSelect = document.querySelector("#stage-select");
@@ -193,6 +193,7 @@ void play() {
     String settingsString = JSON.encode(settings);
    // print("The following settingsString was generated " + settingsString);
     localStorage['settings'] = settingsString;
+    print("About to redirect!");
     window.location.assign("bouncy-ball-battle.html");
 }
 /*

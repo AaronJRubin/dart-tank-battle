@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="utf-8">
@@ -8,44 +7,1626 @@
 <meta name="description"
   content="This is a multiplayer tank shooting game
     built with Dart and WebGL">
-<title>Game Settings</title>
-<script src="packages/web_components/platform.js"></script>
-<script src="packages/web_components/dart_support.js"></script>
-<link rel="import" href="packages/paper_elements/paper_icon_button.html">
-<link rel="import" href="packages/paper_elements/paper_button.html">
-<link rel="import" href="packages/core_elements/core_icon_button.html">
-<link rel="import"
-  href="packages/paper_elements/paper_toggle_button.html">
-<link rel="import" href="custom-elements/player_input.html">
-<link rel="stylesheet" href="game_settings.css">
-<link rel="stylesheet" href="custom-elements/my_select.css">
-<script src="packages/browser/dart.js"></script>
-<style>
-#dummy {
-  display: none
-}
-</style>
+<link type="text/css" rel="stylesheet" href="/main.css"/>
+<title>Tank Battle</title>
 </head>
 
 <body>
-  <div vertical layout center>
-    <ol>
-      <li><player-input id="player-1" leftKey="A" rightKey="D"
-          accelerateKey="W" reverseKey="S" color="ORANGE"
-          name="Player 1" use="true"></player-input></li>
-      <li><player-input id="player-2" leftKey="LEFT"
-          rightKey="RIGHT" accelerateKey="UP" reverseKey="DOWN"
-          color="RED" name="Player 2" use="true"></player-input></li>
-      <li><player-input id="player-3" leftKey="G" rightKey="J"
-          accelerateKey="Y" reverseKey="H" color="YELLOW"
-          name="Player 3"></player-input></li>
-      <li>
-      <player-input id="player-4" leftKey="7" rightKey="9"
-        accelerateKey="8" reverseKey="0" color="GREEN" name="Player 4"></player-input></li>
-    </ol>
-    <div id="stage-select-section">
-      <label>Select a stage: <select id="stage-select">
-          <!--<option value="basic-stage">Basic Stage</option> -->
+
+
+<div class="settings">
+
+<div class = "player-form-input">
+
+<h2>
+Player One Settings:
+</h2>
+
+<div>  
+<label>
+Rotate Left Key:
+<div>
+<select name="One-rotate-left" id = "One-rotate-left">
+  
+  <option value="A" selected>A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Rotate Right Key:
+<div>
+<select name="One-rotate-right" id="One-rotate-right">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" selected>D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Accelerate Key:
+<div>
+<select name="One-accelerate" id="One-accelerate" >
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" selected>W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Reverse Key:
+<div>
+<select name="One-reverse" id="One-reverse">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" selected>S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Color:
+<div>
+<select name="One-color" id="One-color">
+  
+   <option value="RED" >RED</option>
+  
+   <option value="ORANGE" >ORANGE</option>
+  
+   <option value="YELLOW" >YELLOW</option>
+  
+   <option value="GREEN" selected>GREEN</option>
+  
+   <option value="BLUE" >BLUE</option>
+  
+   <option value="VIOLET" >VIOLET</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Use this player:
+<input type = "checkbox" name="One-use" id="One-use" value="use">
+</label>
+</div>
+
+</div>
+
+<div class = "player-form-input">
+
+<h2>
+Player Two Settings:
+</h2>
+
+<div>  
+<label>
+Rotate Left Key:
+<div>
+<select name="Two-rotate-left" id = "Two-rotate-left">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" selected>LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Rotate Right Key:
+<div>
+<select name="Two-rotate-right" id="Two-rotate-right">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" selected>RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Accelerate Key:
+<div>
+<select name="Two-accelerate" id="Two-accelerate" >
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" selected>UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Reverse Key:
+<div>
+<select name="Two-reverse" id="Two-reverse">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" selected>DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Color:
+<div>
+<select name="Two-color" id="Two-color">
+  
+   <option value="RED" selected>RED</option>
+  
+   <option value="ORANGE" >ORANGE</option>
+  
+   <option value="YELLOW" >YELLOW</option>
+  
+   <option value="GREEN" >GREEN</option>
+  
+   <option value="BLUE" >BLUE</option>
+  
+   <option value="VIOLET" >VIOLET</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Use this player:
+<input type = "checkbox" name="Two-use" id="Two-use" value="use">
+</label>
+</div>
+
+</div>
+
+<div class = "player-form-input">
+
+<h2>
+Player Three Settings:
+</h2>
+
+<div>  
+<label>
+Rotate Left Key:
+<div>
+<select name="Three-rotate-left" id = "Three-rotate-left">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" selected>J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Rotate Right Key:
+<div>
+<select name="Three-rotate-right" id="Three-rotate-right">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" selected>L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Accelerate Key:
+<div>
+<select name="Three-accelerate" id="Three-accelerate" >
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" selected>I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Reverse Key:
+<div>
+<select name="Three-reverse" id="Three-reverse">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" selected>K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Color:
+<div>
+<select name="Three-color" id="Three-color">
+  
+   <option value="RED" >RED</option>
+  
+   <option value="ORANGE" >ORANGE</option>
+  
+   <option value="YELLOW" selected>YELLOW</option>
+  
+   <option value="GREEN" >GREEN</option>
+  
+   <option value="BLUE" >BLUE</option>
+  
+   <option value="VIOLET" >VIOLET</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Use this player:
+<input type = "checkbox" name="Three-use" id="Three-use" value="use">
+</label>
+</div>
+
+</div>
+
+<div class = "player-form-input">
+
+<h2>
+Player Four Settings:
+</h2>
+
+<div>  
+<label>
+Rotate Left Key:
+<div>
+<select name="Four-rotate-left" id = "Four-rotate-left">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" selected>7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Rotate Right Key:
+<div>
+<select name="Four-rotate-right" id="Four-rotate-right">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" selected>9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Accelerate Key:
+<div>
+<select name="Four-accelerate" id="Four-accelerate" >
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" >0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" selected>8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Reverse Key:
+<div>
+<select name="Four-reverse" id="Four-reverse">
+  
+  <option value="A" >A</option>
+  
+  <option value="B" >B</option>
+  
+  <option value="C" >C</option>
+  
+  <option value="D" >D</option>
+  
+  <option value="E" >E</option>
+  
+  <option value="F" >F</option>
+  
+  <option value="G" >G</option>
+  
+  <option value="H" >H</option>
+  
+  <option value="I" >I</option>
+  
+  <option value="J" >J</option>
+  
+  <option value="K" >K</option>
+  
+  <option value="L" >L</option>
+  
+  <option value="M" >M</option>
+  
+  <option value="N" >N</option>
+  
+  <option value="O" >O</option>
+  
+  <option value="P" >P</option>
+  
+  <option value="Q" >Q</option>
+  
+  <option value="R" >R</option>
+  
+  <option value="S" >S</option>
+  
+  <option value="T" >T</option>
+  
+  <option value="U" >U</option>
+  
+  <option value="V" >V</option>
+  
+  <option value="W" >W</option>
+  
+  <option value="X" >X</option>
+  
+  <option value="Y" >Y</option>
+  
+  <option value="Z" >Z</option>
+  
+  <option value="0" selected>0</option>
+  
+  <option value="1" >1</option>
+  
+  <option value="2" >2</option>
+  
+  <option value="3" >3</option>
+  
+  <option value="4" >4</option>
+  
+  <option value="5" >5</option>
+  
+  <option value="6" >6</option>
+  
+  <option value="7" >7</option>
+  
+  <option value="8" >8</option>
+  
+  <option value="9" >9</option>
+  
+  <option value="LEFT" >LEFT</option>
+  
+  <option value="RIGHT" >RIGHT</option>
+  
+  <option value="UP" >UP</option>
+  
+  <option value="DOWN" >DOWN</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Color:
+<div>
+<select name="Four-color" id="Four-color">
+  
+   <option value="RED" >RED</option>
+  
+   <option value="ORANGE" >ORANGE</option>
+  
+   <option value="YELLOW" >YELLOW</option>
+  
+   <option value="GREEN" >GREEN</option>
+  
+   <option value="BLUE" selected>BLUE</option>
+  
+   <option value="VIOLET" >VIOLET</option>
+  
+</select>
+</div>
+</label>
+</div>
+
+<div>
+<label>
+Use this player:
+<input type = "checkbox" name="Four-use" id="Four-use" value="use">
+</label>
+</div>
+
+</div>
+
+<div>
+ <label>Select a stage: 
+  <select id="stage-select">
           <option value="lava-walls">Lava Death Stage</option>
           <option value="lava-no-walls">Wall-Free Lava Death
             Stage</option>
@@ -53,10 +1634,15 @@
             Pillar Stage</option>
           <option value="nine-pillar-stage">Nine Pillar
             Lightning Stage</option>
-      </select>
-      </label>
-    </div>
-    <paper-button id="play-button">Play!</paper-button>
+  </select>
+</label>
+</div>
+
+<button class = "play-button">Play!</button>
+</div><!-- End settings -->
+
+<article>
+
     <h1>About this Game</h1>
     <p>
       This is a simple tank shooting game, implemented in the Dart
@@ -157,7 +1743,13 @@
         players at once, so that is also off the table for the time
         being.</li>
     </ul>
-  </div>
-  <script type="application/dart" src="game_settings.dart"></script>
-</body>
-</html>
+
+ </article>
+
+<script type="application/dart" src="game_settings.dart"></script>
+
+
+
+
+
+</body> </html>
