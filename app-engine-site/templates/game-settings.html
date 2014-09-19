@@ -6,8 +6,23 @@
 {% for player in players %}
 {{player.render()}}
 {% endfor %}
+
+ <label>Select a stage: 
+  <select id="stage-select">
+          <option value="lava-walls">Lava Death Stage</option>
+          <option value="lava-no-walls">Wall-Free Lava Death
+            Stage</option>
+          <option value="nine-pillar-stage-mobile">Nine Moving
+            Pillar Stage</option>
+          <option value="nine-pillar-stage">Nine Pillar
+            Lightning Stage</option>
+  </select>
+</label>
+
 <input class = "play-button" type="submit" value="Play" />
 </form>
+
+
 </div>
 
 <article>

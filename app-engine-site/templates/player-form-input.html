@@ -6,7 +6,7 @@ Player {{player.number}} Settings:
   
 <label>
 Rotate Left Key:
-<select name="{{player.number}}-rotate-left">
+<select name="{{player.number}}-rotate-left" id = "{{player.number}}-rotate-left">
   {% for key in keys %}
   <option value="{{key}}"  {% if key == player.left
     %}selected{% endif %}>{{key}}</option>
@@ -16,7 +16,7 @@ Rotate Left Key:
 
 <label>
 Rotate Right Key:
-<select name="{{player.number}}-rotate-right">
+<select name="{{player.number}}-rotate-right" id="{{player.number}}-rotate-right">
   {% for key in keys %}
   <option value="{{key}}" {% if key == player.right
     %}selected{% endif %}>{{key}}</option>
@@ -26,7 +26,7 @@ Rotate Right Key:
 
 <label>
 Accelerate Key:
-<select name="{{player.number}}-accelerate">
+<select name="{{player.number}}-accelerate" id="{{player.number}}-accelerate" >
   {% for key in keys %}
   <option value="{{key}}" {% if key == player.accelerate
     %}selected{% endif %} >{{key}}</option>
@@ -36,7 +36,7 @@ Accelerate Key:
 
 <label>
 Reverse Key:
-<select name="{{player.number}}-reverse">
+<select name="{{player.number}}-reverse" id="{{player.number}}-reverse">
   {% for key in keys %}
   <option value="{{key}}" {% if key == player.reverse
     %}selected{% endif %}>{{key}}</option>
@@ -46,7 +46,7 @@ Reverse Key:
 
 <label>
 Color:
-<select name="{{player.number}}-color">
+<select name="{{player.number}}-color" id="{{player.number}}-color">
   {% for color in colors %}
    <option value="{{color}}" {% if color == player.color
     %}selected{% endif %}>{{color}}</option>
