@@ -21,6 +21,8 @@ bouncyballbattle.dart.precompiled.js
 game_settings.dart.js
 game_settings.dart.precompiled.js
 
+packages/browser/dart.js
+
 night-sky/nightsky_back.jpg
 night-sky/nightsky_front.jpg
 night-sky/nightsky_left.jpg
