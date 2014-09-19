@@ -63,6 +63,7 @@ ul {
   width: 90%;
   list-style: disc outside none;
   margin: 2rem;
+  line-height: 1.15rem;
 }
 
 li {
@@ -70,7 +71,7 @@ li {
 }
 
 p {
-  line-height: 1.2rem;
+  line-height: 1.25rem;
   margin: 0.5rem;
 }
 
