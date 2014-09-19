@@ -1,0 +1,62 @@
+<div class = "player-form-input">
+
+<label class="player-input-label">
+Player {{player.number}} Settings:
+</label>
+  
+<label>
+Rotate Left Key:
+<select name="{{player.number}}-rotate-left">
+  {% for key in keys %}
+  <option value="{{key}}"  {% if key == player.left
+    %}selected{% endif %}>{{key}}</option>
+  {% endfor %}
+</select>
+</label>
+
+<label>
+Rotate Right Key:
+<select name="{{player.number}}-rotate-right">
+  {% for key in keys %}
+  <option value="{{key}}" {% if key == player.right
+    %}selected{% endif %}>{{key}}</option>
+  {% endfor %}
+</select>
+</label>
+
+<label>
+Accelerate Key:
+<select name="{{player.number}}-accelerate">
+  {% for key in keys %}
+  <option value="{{key}}" {% if key == player.accelerate
+    %}selected{% endif %} >{{key}}</option>
+  {% endfor %}
+</select>
+</label>
+
+<label>
+Reverse Key:
+<select name="{{player.number}}-reverse">
+  {% for key in keys %}
+  <option value="{{key}}" {% if key == player.reverse
+    %}selected{% endif %}>{{key}}</option>
+  {% endfor %}
+</select>
+</label>
+
+<label>
+Color:
+<select name="{{player.number}}-color">
+  {% for color in colors %}
+   <option value="{{color}}" {% if color == player.color
+    %}selected{% endif %}>{{color}}</option>
+  {% endfor %}
+</select>
+</label>
+
+<label>
+Use this player:
+<input type = "checkbox" name="{{player.number}}-use" value="use">
+</label>
+
+</div>
