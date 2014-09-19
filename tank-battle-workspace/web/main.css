@@ -142,6 +142,7 @@ select {
 }
 
 .player-form-input>div {
+  vertical-align: top;
   display: inline-block;
   width: 15.5%;
 }
@@ -164,17 +165,8 @@ select {
 }
 
 /* Fancy checkbox begins here */
-
-/* This keeps the fancy checkbox aligned with the other inputs.
-Unfortunately, at certain screen dimensions, it jumps up above them,
-which is unsightly and unfortunate */
-
-.checkbox-wrapper {
-  vertical-align: top;
-}
-
 .checkbox-div {
-  margin-top: 3px; /* This makes it line up better with selects on the same line */
+  margin-top: 3px; /* This makes fancy checkbox line up better with selects on the same line */
   height: 20px;
   background: #333;
   border-radius: 50px;
