@@ -45,7 +45,7 @@ class MainHandler(Handler):
 
 class BouncyBallBattleSettings(Handler):    
     def get(self):
-        self.redirect("/game-settings.html", players = players)
+        self.redirect("/game-settings.html")
             
 class BouncyBallBattlePlay(Handler):
     def get(self):
