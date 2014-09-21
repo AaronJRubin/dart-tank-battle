@@ -104,9 +104,13 @@ class Game extends animation.Animation {
   }
 
   void log() {
+    print("***************");
     for (RealisticMovementPlayer player in players) {
+     print("************");
      player.log();
     }
+    print("***************");
+    print("***************");
   }
 
   void restart() {

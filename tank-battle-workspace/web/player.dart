@@ -520,11 +520,14 @@ class Player extends Object3D {
 
   void log() {
     print("This player's name is " + name);
+    print("This players HSL is " + material.color.HSL.toString());
+    print("This player's damage is $_hits/$STARTING_HP");
     print("This player's scale factor is " + scale.toString());
     print("This player's translation is " + position.toString());
     print("Swelling due to imminent death for this player is " + _swellingDueToImminentDeath.toString());
     print("The value of dead for this player is " + dead.toString());
     print("This player's spikiness is " + spikey.toString());
+    print("This player's triple shoot is " + _tripleShoot.toString());
   }
 
   animation.BasicAnimation generateInvulnerabilityToFireClock() {
