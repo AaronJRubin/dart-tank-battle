@@ -46,7 +46,7 @@ class Game extends animation.Animation {
     return toReturn;
   }
 
-  Game(Element canvas, {this.players, this.stageID: Stage.NINEPILLARSTAGE}) {
+  Game(Element canvas, {this.players, this.stageID: Stage.NINEPILLARSTAGE, bool debug: false}) {
     if (players == null) {
       players = generateDefaultPlayers();
     }
@@ -94,6 +94,19 @@ class Game extends animation.Animation {
       scene.add(model);
     }
     keyboard.bindToWindow();
+    if (debug) {
+      window.addEventListener('keydown', (KeyboardEvent e) {
+        if (e.keyCode == KeyCode.B) {
+          log();
+        }
+      });
+    }
+  }
+
+  void log() {
+    for (RealisticMovementPlayer player in players) {
+     player.log();
+    }
   }
 
   void restart() {
@@ -224,17 +237,17 @@ class Game extends animation.Animation {
 
   void update(Duration elapsedTime) {
     if (!done) {
-    _CANVASWIDTH = window.innerWidth - 20;
-    _CANVASHEIGHT = window.innerHeight - 20;
-    renderer.setSize(_CANVASWIDTH, _CANVASHEIGHT);
-    // print("About to call update players!");
-    _updatePlayers(elapsedTime);
-    // print('About to call update bullest!');
-    _updateBullets(elapsedTime);
-    // print('About to call stage.update!');
-    stage.update(elapsedTime);
-    // print("About to render appropriately!");
-    _renderAppropriately();
+      _CANVASWIDTH = window.innerWidth - 20;
+      _CANVASHEIGHT = window.innerHeight - 20;
+      renderer.setSize(_CANVASWIDTH, _CANVASHEIGHT);
+      // print("About to call update players!");
+      _updatePlayers(elapsedTime);
+      // print('About to call update bullest!');
+      _updateBullets(elapsedTime);
+      // print('About to call stage.update!');
+      stage.update(elapsedTime);
+      // print("About to render appropriately!");
+      _renderAppropriately();
     }
   }
 

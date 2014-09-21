@@ -54,7 +54,14 @@ class RealisticMovementPlayer extends Player {
     }
   }
 
-  Map get startingConfigurationMap => {'name' : name, 'left' : leftKey, 'right' : rightKey, 'reverse' : downKey, 'accelerate' : upKey, 'hue' : material.color.HSL[0]};
+  Map get startingConfigurationMap => {
+    'name': name,
+    'left': leftKey,
+    'right': rightKey,
+    'reverse': downKey,
+    'accelerate': upKey,
+    'hue': material.color.HSL[0]
+  };
 
   /**
    * The rotation angle occasionally needs to be set or read from outside,
@@ -509,6 +516,15 @@ class Player extends Object3D {
 
   _registerUpdateAction(PlayerUpdateAction newAction) {
     _updateActions.add(newAction);
+  }
+
+  void log() {
+    print("This player's name is " + name);
+    print("This player's scale factor is " + scale.toString());
+    print("This player's translation is " + position.toString());
+    print("Swelling due to imminent death for this player is " + _swellingDueToImminentDeath.toString());
+    print("The value of dead for this player is " + dead.toString());
+    print("This player's spikiness is " + spikey.toString());
   }
 
   animation.BasicAnimation generateInvulnerabilityToFireClock() {
