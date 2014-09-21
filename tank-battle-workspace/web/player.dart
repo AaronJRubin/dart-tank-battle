@@ -223,6 +223,20 @@ class RealisticMovementPlayer extends Player {
       if (pillar.move) {
         normalizedImpactVector.addScaled(pillar.movementAxis, -pillar.movementSpeed);
       }
+      /* In principle, the new velocity of the player
+       * after hitting the pillar should have a y-value of
+       * 0.0, because when a player hits a pillar, the player and pillar should
+       * be on the same plane (both having a y-position of 0).
+       * However, floating-point precision errors can lead to infinitesimal
+       * differences in the y-coordinates of the two objects, and hence
+       * a non-zero y-value in the impact vector. These
+       * differences become magnified with repeated
+       * impacts and with the many moves of the budge loop.
+       * Explicitly setting the y-value of the new velocity
+       * to 0.0 prevents this bug, which can otherwise
+       * cause the player to float above the stage!
+         */
+      normalizedImpactVector.y = 0.0;
       setVelocity(normalizedImpactVector);
       while (_touchingPillar(pillar)) {
         budge();
