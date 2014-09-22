@@ -12,6 +12,23 @@ import 'keyboard.dart';
 import 'obstacles.dart';
 import 'animation.dart' as animation;
 
+/**
+ * [RealisticMovementPlayer] is the default
+ * movement-and-physics-implementing subclass
+ * of [Player], and most of the code for this
+ * game that involves [Player]s depends specifically
+ * upon methods and instance variables of this subclass
+ * and the voluntary/involuntary velocity model.
+ * As a result, you cannot just use dependency injection to
+ * use any old [Player] implementation in game code. Now, it
+ * could be pointed out that this defeats the purpose of
+ * having a top-level [Player] class whose subclasses
+ * can implement their own physics scheme. While that's true
+ * for the game as currently written, it's possible that
+ * future changes and rewrites might change this state
+ * of affairs, so I keep this class structure around
+ * just in case.
+ */
 class RealisticMovementPlayer extends Player {
   static const TOP_SPEED = 1.0;
 
@@ -469,6 +486,13 @@ class Bullet extends Object3D {
   }
 }
 
+/**
+ * The [Player] class defines aspects of player behavior
+ * that are independent of movement, and hence control scheme
+ * and physics agnostic. Behavior that depends upon control scheme
+ * and physics should be defined be subclassing this class, as done by
+ * [RealisticMovementPlayer] and [StaccatoMovementPlayer].
+ */
 typedef void PlayerUpdateAction(Keyboard board, Duration d);
 
 class Player extends Object3D {
@@ -873,7 +897,23 @@ class Player extends Object3D {
   }
 }
 
-
+/**
+ * The [StaccatoMovementPlayer] subclass of [Player] implements motion
+ * that is not very physically realistic, with movement
+ * in only 8 possible directions and sudden
+ * starts and stops instead of acceleration and friction-based
+ * slowing. The way that the code for the rest of the game
+ * shaped out, I did not end up using this subclass,
+ * and it is not actually compatible with the rest of
+ * the game code as currently written. Still, I keep
+ * it around because you never know, it might be useful
+ * for a different game, or it might be usable in this game
+ * after a massive code refactoring that delegates handling
+ * of impact with objects to an abstract method that both
+ * [StaccatoMovementPlayer] and [RealisticMovementPlayer]
+ * can implement in ways that are consistent with their
+ * movement models.
+ */
 class StaccatoMovementPlayer extends Player {
 
   final int leftKey;
