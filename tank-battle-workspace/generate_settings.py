@@ -9,13 +9,14 @@ class PlayerFormInput:
     keys = list(string.ascii_uppercase) + list(string.digits) + ['LEFT', 'RIGHT', 'UP', 'DOWN']
     colors = ['RED', 'ORANGE', 'YELLOW', 'GREEN', 'BLUE', 'VIOLET']
 
-    def __init__(self, number, left = "LEFT", right = "RIGHT", accelerate = "UP", reverse = "DOWN", color = "RED"):
+    def __init__(self, number, left = "LEFT", right = "RIGHT", accelerate = "UP", reverse = "DOWN", color = "RED", use = True):
         self.number = number
         self.left = left
         self.right = right
         self.accelerate = accelerate
         self.reverse = reverse
         self.color = color
+        self.use = use
 
     def render(self):
         return render_str("player-form-input.html", player = self, keys = self.keys, colors = self.colors)
@@ -36,8 +37,8 @@ def render_str(template, **params):
 
 player2 = PlayerFormInput("Two")
 player1 = PlayerFormInput("One", "A", "D", "W", "S", color = 'GREEN')
-player3 = PlayerFormInput("Three", "G", "J", "Y", "H", color = 'YELLOW')
-player4 = PlayerFormInput("Four", "7", "9", "8", "0", color = 'BLUE')
+player3 = PlayerFormInput("Three", "G", "J", "Y", "H", color = 'YELLOW', use = False)
+player4 = PlayerFormInput("Four", "7", "9", "8", "0", color = 'BLUE', use = False)
 players = [player1, player2, player3, player4]
 
 renderedPage = render_str("game-settings-template.html", players = players)

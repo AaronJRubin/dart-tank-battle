@@ -31,10 +31,6 @@ main() {
     });
   });
   playButton.onClick.listen((event) => play());
-  InputElement playerOneCheckbox = getPlayerCheckbox("One");
-  playerOneCheckbox.checked = true;
-  InputElement playerTwoCheckbox = getPlayerCheckbox("Two");
-  playerTwoCheckbox.checked = true;
 }
 
 int stringToKeyCode(String input) {
