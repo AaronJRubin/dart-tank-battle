@@ -230,9 +230,9 @@ class NinePillarStage extends Stage {
         double zCoordinate = pillarInterval * (1 + z) - _SQUARESTAGEWIDTH / 2;
         DeathPillar toAdd;
         if (!pillarsMove) {
-          toAdd = new DeathPillar(height: Player.TORSO_RADIUS * 5, radius: Player.TORSO_RADIUS * 5, spikesPerLevel: 10, spikey: true);
+          toAdd = new DeathPillar(height: PlayerTorso.TORSO_RADIUS * 5, radius: PlayerTorso.TORSO_RADIUS * 5, spikesPerLevel: 10, spikey: true);
         } else {
-          toAdd = new DeathPillar(height: Player.TORSO_RADIUS * 5, radius: Player.TORSO_RADIUS * 5, spikesPerLevel: 10, spikey: true, move: true);
+          toAdd = new DeathPillar(height: PlayerTorso.TORSO_RADIUS * 5, radius: PlayerTorso.TORSO_RADIUS * 5, spikesPerLevel: 10, spikey: true, move: true);
         }
         toAdd.position.x = xCoordinate;
         toAdd.position.z = zCoordinate;

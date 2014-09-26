@@ -75,7 +75,8 @@ class Fireball extends Object3D with SphereCollidable {
     position.y = radius;
   }
 
-  bool checkPlayerCollision(Player p) => collidesWithSphereData(p.getSphereWorldPosition(), Player.ROLLING_PART_RADIUS) != null;
+  bool checkPlayerCollision(Player player) => collidesWithSphereData(
+      player.rollingPart.getDiskWorldPosition(), PlayerRollingPart.ROLLING_PART_RADIUS) != null;
  }
 
 class LightningField extends Object3D {

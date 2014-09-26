@@ -134,18 +134,18 @@ class RealisticMovementPlayer extends Player {
   void bounceWithinBoundaryBox(final double boxSideLength) {
     bool bounceX = false;
     bool bounceZ = false;
-    if (position.x + Player.ROLLING_PART_RADIUS >= boxSideLength / 2) {
-      position.x = boxSideLength / 2 - Player.ROLLING_PART_RADIUS;
+    if (position.x + rollingPart.diskRadius >= boxSideLength / 2) {
+      position.x = boxSideLength / 2 - rollingPart.diskRadius;
       bounceX = true;
-    } else if (position.x - Player.ROLLING_PART_RADIUS <= -boxSideLength / 2) {
-      position.x = -boxSideLength / 2 + Player.ROLLING_PART_RADIUS;
+    } else if (position.x - rollingPart.diskRadius <= -boxSideLength / 2) {
+      position.x = -boxSideLength / 2 + rollingPart.diskRadius;
       bounceX = true;
     }
-    if (position.z + Player.ROLLING_PART_RADIUS >= boxSideLength / 2) {
-      position.z = boxSideLength / 2 - Player.ROLLING_PART_RADIUS;
+    if (position.z + rollingPart.diskRadius >= boxSideLength / 2) {
+      position.z = boxSideLength / 2 - rollingPart.diskRadius;
       bounceZ = true;
-    } else if (position.z - Player.ROLLING_PART_RADIUS <= -boxSideLength / 2) {
-      position.z = -boxSideLength / 2 + Player.ROLLING_PART_RADIUS;
+    } else if (position.z - rollingPart.diskRadius <= -boxSideLength / 2) {
+      position.z = -boxSideLength / 2 + rollingPart.diskRadius;
       bounceZ = true;
     }
     if (bounceX || bounceZ) {
@@ -229,7 +229,7 @@ class RealisticMovementPlayer extends Player {
    * of the pillar (so the [impact] method does not need to be called here).
    */
   bool checkDeathPillarCollisionAndBounceAppopriately(DeathPillar pillar) {
-    Vector3 impact = collidesWithDisk(pillar);
+    Vector3 impact = rollingPart.collidesWithDisk(pillar);
     if (impact == null) {
       return false;
     }
@@ -257,7 +257,7 @@ class RealisticMovementPlayer extends Player {
             */
     normalizedImpactVector.y = 0.0;
     setVelocity(normalizedImpactVector);
-    while (collidesWithDisk(pillar) != null) {
+    while (rollingPart.collidesWithDisk(pillar) != null) {
       budge();
       updateMatrixWorld(force: true);
     }
@@ -352,15 +352,15 @@ class RealisticMovementPlayer extends Player {
 
 class GunTurret extends Object3D {
 
-  static const double length = Player.ROLLING_PART_RADIUS * 2.0;
+  static const double length = PlayerRollingPart.ROLLING_PART_RADIUS * 2.0;
   static final Material material = new MeshLambertMaterial(color: 0xFFFFFF);
-  static final Geometry geometry = new CylinderGeometry(Player.ROLLING_PART_RADIUS / 5.0, Player.ROLLING_PART_RADIUS / 5.0, length);
+  static final Geometry geometry = new CylinderGeometry(PlayerRollingPart.ROLLING_PART_RADIUS / 5.0, PlayerRollingPart.ROLLING_PART_RADIUS / 5.0, length);
   static final Geometry sightGeometry = new SphereGeometry();
   final Player owner;
   final Mesh mesh = new Mesh(geometry, material);
   final Mesh sight = new Mesh(sightGeometry, new MeshBasicMaterial(visible: false));
 
-  GunTurret({this.owner: null, double radiusOfCircularObjectOnWhichPlaced: 0.0}) {
+  GunTurret(this.owner, {double radiusOfCircularObjectOnWhichPlaced: 0.0}) {
     sight.position.y = -length;
     Object3D intermediateObject3D = new Object3D();
     intermediateObject3D.add(mesh);
@@ -385,7 +385,7 @@ class GunTurret extends Object3D {
 }
 
 class Bullet extends Object3D with SphereCollidable {
-  static const double radius = Player.ROLLING_PART_RADIUS / 2.0;
+  static const double radius = PlayerRollingPart.ROLLING_PART_RADIUS / 2.0;
   static const double minimumSpeed = 1.0;
   static const double mass = Player.MASS / 3.0;
 
@@ -450,7 +450,7 @@ class Bullet extends Object3D with SphereCollidable {
     return _velocity.clone();
   }
 
-  bool checkPlayerCollision(Player target) => collidesWithDisk(target) != null;
+  bool checkPlayerCollision(Player target) => collidesWithDisk(target.torso) != null;
 
   bool checkDeathPillarCollision(DeathPillar pillar) => collidesWithDisk(pillar) != null;
 
@@ -470,13 +470,164 @@ class Bullet extends Object3D with SphereCollidable {
   }
 }
 
-class PlayerRollingPart extends Mesh with DiskCollidable {
+class PlayerRollingPart extends Object3D with DiskCollidable {
+  static const ROLLING_PART_RADIUS = 50.0;
+  static const SPIKE_LENGTH = ROLLING_PART_RADIUS;
+  static const SPIKE_BOTTOM_RADIUS = ROLLING_PART_RADIUS / 4;
+  static const SPIKE_TOP_RADIUS = ROLLING_PART_RADIUS / 40;
+  final List<Object3D> _spikes = _generateSpikes();
+  Material _material;
+  Mesh _sphere;
+  bool _spikey = false;
+  bool get spikey => _spikey;
+  void set spikey(bool b) {
+    _spikey = b;
+    if (_spikey) {
+      for (Object3D spike in _spikes) {
+        add(spike);
+      }
+    } else {
+      for (Object3D spike in _spikes) {
+        remove(spike);
+      }
+    }
+  }
 
-  PlayerRollingPart (Material material) : super(new SphereGeometry(Player.ROLLING_PART_RADIUS), material);
+  PlayerRollingPart(this._material) {
+    this._sphere = new Mesh(new SphereGeometry(ROLLING_PART_RADIUS), _material);
+    add(_sphere);
+  }
 
-  double get diskRadius => Player.ROLLING_PART_RADIUS;
+  double get diskRadius {
+    if (spikey) {
+      return ROLLING_PART_RADIUS + SPIKE_LENGTH;
+    }
+    return ROLLING_PART_RADIUS;
+  }
 
   Vector3 getDiskWorldPosition() => matrixWorld.getTranslation().clone();
+
+  static List<Object3D> _generateSpikes() {
+    List<Object3D> spikeList = [];
+    final Geometry spikeGeometry = new CylinderGeometry(SPIKE_TOP_RADIUS, SPIKE_BOTTOM_RADIUS, SPIKE_LENGTH);
+    final Material spikeMaterial = new MeshLambertMaterial();
+    final int numSpikes = 10;
+    for (int i = 0; i < numSpikes; i++) {
+      Mesh spikeMesh = new Mesh(spikeGeometry, spikeMaterial);
+      spikeMesh.rotation.z = -PI / 2;
+      spikeMesh.position.x = ROLLING_PART_RADIUS + (SPIKE_LENGTH / 2);
+      Object3D spikeObject = new Object3D();
+      spikeObject.add(spikeMesh);
+      double rotationRadians = (2 * PI * i) / numSpikes;
+      spikeObject.rotation.y = rotationRadians;
+      spikeList.add(spikeObject);
+    }
+    return spikeList;
+  }
+
+  void setTemporaryMaterial(Material temp) {
+     _sphere.material = temp;
+   }
+
+   void restoreOriginalMaterial() {
+     _sphere.material = _material;
+   }
+
+
+  double get sphereRadius {
+    if (spikey) {
+      return ROLLING_PART_RADIUS + SPIKE_LENGTH;
+    } else {
+      return ROLLING_PART_RADIUS;
+    }
+  }
+}
+
+class PlayerTorso extends Object3D with DiskCollidable {
+
+  static const TORSO_RADIUS = PlayerRollingPart.ROLLING_PART_RADIUS / 2.0;
+  static const TORSO_HEIGHT = PlayerRollingPart.ROLLING_PART_RADIUS * 2.0;
+  static const ARM_HEIGHT = PlayerRollingPart.ROLLING_PART_RADIUS * 1.5;
+  Mesh _torso;
+  Material _material;
+  Player owner;
+  List<GunTurret> gunTurrets = [];
+  bool _tripleShoot = false;
+  bool get tripleShoot => _tripleShoot;
+  void set tripleShoot(bool b) {
+    if (b == _tripleShoot) {
+      return;
+    }
+    _tripleShoot = b;
+    if (_tripleShoot) {
+      _makeTripleShoot();
+      return;
+    }
+    _makeSingleShoot();
+  }
+
+  PlayerTorso(this.owner, this._material) {
+    _torso = new Mesh(new CylinderGeometry(TORSO_RADIUS, TORSO_RADIUS, TORSO_HEIGHT), _material);
+    _torso.position.y = PlayerRollingPart.ROLLING_PART_RADIUS;
+    add(_torso);
+    _makeSingleShoot();
+  }
+
+  Vector3 getDiskWorldPosition() {
+    return _torso.matrixWorld.getTranslation().clone();
+  }
+
+  double get diskRadius {
+    return TORSO_RADIUS;
+  }
+
+  GunTurret generateTurret() {
+    GunTurret toReturn = new GunTurret(owner, radiusOfCircularObjectOnWhichPlaced: TORSO_RADIUS);
+    toReturn.position.y = ARM_HEIGHT;
+    return toReturn;
+  }
+
+  void _makeTripleShoot() {
+    for (GunTurret turret in gunTurrets) {
+      remove(turret);
+    }
+    gunTurrets.clear();
+    GunTurret frontTurret = generateTurret();
+    GunTurret leftTurret = generateTurret();
+    leftTurret.rotation.y = PI / 6;
+    GunTurret rightTurret = generateTurret();
+    rightTurret.rotation.y = -PI / 6;
+    gunTurrets.add(frontTurret);
+    gunTurrets.add(leftTurret);
+    gunTurrets.add(rightTurret);
+    for (GunTurret gunTurret in gunTurrets) {
+      add(gunTurret);
+    }
+  }
+
+  void _makeSingleShoot() {
+    for (GunTurret turret in gunTurrets) {
+      remove(turret);
+    }
+    gunTurrets.clear();
+    gunTurrets.add(generateTurret());
+    for (GunTurret gunTurret in gunTurrets) {
+      add(gunTurret);
+    }
+  }
+
+  void setTemporaryMaterial(Material temp) {
+    _torso.material = temp;
+  }
+
+  void restoreOriginalMaterial() {
+    _torso.material = _material;
+  }
+
+  List<Bullet> fire() {
+    return gunTurrets.map((gunTurret) => gunTurret.fire()).toList(growable : false);
+  }
+
 }
 
 /**
@@ -495,14 +646,7 @@ class PlayerRollingPart extends Mesh with DiskCollidable {
  */
 typedef void PlayerUpdateAction(Keyboard board, Duration d);
 
-class Player extends Object3D with SphereCollidable, DiskCollidable {
-  static const ROLLING_PART_RADIUS = 50.0;
-  static const SPIKE_LENGTH = ROLLING_PART_RADIUS;
-  static const SPIKE_BOTTOM_RADIUS = ROLLING_PART_RADIUS / 4;
-  static const SPIKE_TOP_RADIUS = ROLLING_PART_RADIUS / 40;
-  static const TORSO_RADIUS = ROLLING_PART_RADIUS / 2.0;
-  static const TORSO_HEIGHT = ROLLING_PART_RADIUS * 2.0;
-  static const ARM_HEIGHT = ROLLING_PART_RADIUS * 1.5;
+class Player extends Object3D {
   static const MASS = 100.0;
   static const STARTING_SATURATION = 0.3;
   static const STARTING_HP = 7;
@@ -518,20 +662,18 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
   bool dead = false;
 
   bool _entrappedByLightning = false;
-  bool _tripleShoot = false;
-  bool spikey = false;
+  bool get spikey => rollingPart.spikey;
+  bool get tripleShoot => torso.tripleShoot;
+
   bool invulnerableToFire = false;
   int _hits = 0;
   Duration _sinceLastShot = new Duration();
-  List<GunTurret> gunTurrets = [];
-  List<Object3D> spikes = _generateSpikes();
 
-  Mesh torso;
-  Mesh rollingPart;
   List<PlayerUpdateAction> _updateActions = [];
   /// This material is for the torso and rolling part
   MeshLambertMaterial material;
-  static final Texture burnedTexture = loadTexture("lava-stage-textures/boiled_flesh.jpg");
+  PlayerRollingPart rollingPart;
+  PlayerTorso torso;
 
   /** The plain white texture deserves comment. It is completely invisible,
    * but necessary due to a quirk of how Three.dart (and Three.js) handles textures.
@@ -546,11 +688,24 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
    * temporarily when the player has touched something fiery, in order to visually
    * indicate to the player that they will be temporarily impervious to future
    * fire damage */
+  static final Texture burnedTexture = loadTexture("lava-stage-textures/boiled_flesh.jpg");
   static final MeshBasicMaterial burnedMaterial = new MeshBasicMaterial(map: burnedTexture);
 
   animation.BasicAnimation invulnerabilityToFireClock;
   animation.BasicAnimation spikinessClock;
   animation.BasicAnimation tripleShootClock;
+
+  Player({double hue: 0.5}) {
+    invulnerabilityToFireClock = generateInvulnerabilityToFireClock();
+    spikinessClock = generateSpikinessClock();
+    tripleShootClock = generateTripleShootClock();
+    material = _generateMaterial(hue);
+    rollingPart = new PlayerRollingPart(material);
+    torso = new PlayerTorso(this, material);
+    this.add(rollingPart);
+    this.add(torso);
+    this.position.y = PlayerRollingPart.ROLLING_PART_RADIUS;
+  }
 
   _registerUpdateAction(PlayerUpdateAction newAction) {
     _updateActions.add(newAction);
@@ -565,7 +720,7 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
     print("Swelling due to imminent death for this player is " + _swellingDueToImminentDeath.toString());
     print("The value of dead for this player is " + dead.toString());
     print("This player's spikiness is " + spikey.toString());
-    print("This player's triple shoot is " + _tripleShoot.toString());
+    print("This player's triple shoot is " + tripleShoot.toString());
   }
 
   animation.BasicAnimation generateInvulnerabilityToFireClock() {
@@ -580,8 +735,7 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
   animation.BasicAnimation generateSpikinessClock() {
     animation.BasicAnimation toReturn = new animation.BasicAnimation(animation.Animation.emptyUpdateFunction, _spikeyDuration);
     toReturn.cleanup = () {
-      spikey = false;
-      _makeNotSpikey();
+      rollingPart.spikey = false;
     };
     return toReturn;
   }
@@ -608,8 +762,7 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
   animation.BasicAnimation generateTripleShootClock() {
     animation.BasicAnimation toReturn = new animation.BasicAnimation(animation.Animation.emptyUpdateFunction, _tripleShootDuration);
     toReturn.cleanup = () {
-      _tripleShoot = false;
-      _makeSingleShoot();
+      torso.tripleShoot = false;
     };
     return toReturn;
   }
@@ -660,128 +813,42 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
     }
   }
 
-  Player({double hue: 0.5}) {
-    invulnerabilityToFireClock = generateInvulnerabilityToFireClock();
-    spikinessClock = generateSpikinessClock();
-    tripleShootClock = generateTripleShootClock();
-    material = _generateMaterial(hue);
-    rollingPart = generateRollingPart(material);
-    torso = generateTorso(material);
-    torso.position.y = ROLLING_PART_RADIUS;
-    _makeSingleShoot();
-    this.add(rollingPart);
-    this.add(torso);
-    for (GunTurret turret in gunTurrets) {
-      this.add(turret);
-    }
-    this.position.y = ROLLING_PART_RADIUS;
-  }
-
-  void _setMaterial(Material m) {
-    torso.material = m;
-    rollingPart.material = m;
-  }
-
-  Vector3 getSphereWorldPosition() {
-    return rollingPart.matrixWorld.getTranslation().clone();
-  }
-
-  /* Yes, when the player is spikey, this is really
-   * a disk, not a sphere, but it's convenient
-   * to treat the spherical aspect of the player
-   * as the part that's susceptible to contact
-   * with other players and obstacles (but not bullets),
-   * so we cheat a little, incurring a small amount of
-   * technical debt.
-   */
-  double get sphereRadius {
-    if (spikey) {
-      return ROLLING_PART_RADIUS + SPIKE_LENGTH;
-    } else {
-      return ROLLING_PART_RADIUS;
-    }
-  }
-
-  Vector3 getDiskWorldPosition() {
-    return torso.matrixWorld.getTranslation().clone();
-  }
-
-  double get diskRadius {
-    return TORSO_RADIUS;
+  void _setMaterial(Material material) {
+    torso.setTemporaryMaterial(material);
+    rollingPart.setTemporaryMaterial(material);
   }
 
   void handleShotgunPickup() {
-    if (!_tripleShoot) {
-      _makeTripleShoot();
-      _tripleShoot = true;
-    }
+    torso.tripleShoot = true;
     tripleShootClock.restart();
   }
 
   void handleSpikeBallPickup() {
-    if (!spikey) {
-      _makeSpikey();
-      spikey = true;
-    }
+    rollingPart.spikey = true;
     spikinessClock.restart();
   }
 
-  static List<Object3D> _generateSpikes() {
-    List<Object3D> spikeList = [];
-
-    final Geometry spikeGeometry = new CylinderGeometry(SPIKE_TOP_RADIUS, SPIKE_BOTTOM_RADIUS, SPIKE_LENGTH);
-    final Material spikeMaterial = new MeshLambertMaterial();
-    final int numSpikes = 10;
-    for (int i = 0; i < numSpikes; i++) {
-      Mesh spikeMesh = new Mesh(spikeGeometry, spikeMaterial);
-      spikeMesh.rotation.z = -PI / 2;
-      spikeMesh.position.x = ROLLING_PART_RADIUS + (SPIKE_LENGTH / 2);
-      Object3D spikeObject = new Object3D();
-      spikeObject.add(spikeMesh);
-      double rotationRadians = (2 * PI * i) / numSpikes;
-      spikeObject.rotation.y = rotationRadians;
-      spikeList.add(spikeObject);
-    }
-    return spikeList;
-  }
-
   bool overEdgeOfSquare(double squareSideLength) {
-    Vector3 whereIAm = getSphereWorldPosition();
+    Vector3 whereIAm = rollingPart.getDiskWorldPosition();
     squareSideLength = squareSideLength / 2;
-    if (whereIAm.x + ROLLING_PART_RADIUS < -squareSideLength) {
+    if (whereIAm.x + PlayerRollingPart.ROLLING_PART_RADIUS < -squareSideLength) {
       return true;
     }
-    if (whereIAm.z + ROLLING_PART_RADIUS < -squareSideLength) {
+    if (whereIAm.z + PlayerRollingPart.ROLLING_PART_RADIUS < -squareSideLength) {
       return true;
     }
-    if (whereIAm.x - ROLLING_PART_RADIUS > squareSideLength) {
+    if (whereIAm.x - PlayerRollingPart.ROLLING_PART_RADIUS > squareSideLength) {
       return true;
     }
-    if (whereIAm.z - ROLLING_PART_RADIUS > squareSideLength) {
+    if (whereIAm.z - PlayerRollingPart.ROLLING_PART_RADIUS > squareSideLength) {
       return true;
     }
     return false;
   }
 
-  bool checkPlayerCollision(RealisticMovementPlayer other) => collidesWithSphere(other) != null;
+  bool checkPlayerCollision(RealisticMovementPlayer other) => rollingPart.collidesWithDisk(other.rollingPart) != null;
 
-  void _makeSpikey() {
-    for (Object3D spike in spikes) {
-      add(spike);
-    }
-  }
 
-  void _makeNotSpikey() {
-    for (Object3D spike in spikes) {
-      remove(spike);
-    }
-  }
-
-  GunTurret generateTurret() {
-    GunTurret toReturn = new GunTurret(owner: this, radiusOfCircularObjectOnWhichPlaced: TORSO_RADIUS);
-    toReturn.position.y = Player.ARM_HEIGHT;
-    return toReturn;
-  }
   /*
   double pointToSegment(vector.Vector3 point, vector.Vector3 segmentStart, vector.Vector3 segmentEnd) {
     /* http://geomalgorithms.com/a02-_lines.html */
@@ -801,12 +868,12 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
   } */
 
   bool checkLightningFieldCollision(LightningField lightningField) {
-    if (position.x > lightningField.minimumX - Player.ROLLING_PART_RADIUS) {
-      if (position.x < lightningField.maximumX + Player.ROLLING_PART_RADIUS) {
-        if (position.y > lightningField.minimumY - Player.ROLLING_PART_RADIUS) {
-          if (position.y < lightningField.maximumY + Player.ROLLING_PART_RADIUS) {
-            if (position.z > lightningField.minimumZ - Player.ROLLING_PART_RADIUS) {
-              if (position.z < lightningField.maximumZ + Player.ROLLING_PART_RADIUS) {
+    if (position.x > lightningField.minimumX - PlayerRollingPart.ROLLING_PART_RADIUS) {
+      if (position.x < lightningField.maximumX + PlayerRollingPart.ROLLING_PART_RADIUS) {
+        if (position.y > lightningField.minimumY - PlayerRollingPart.ROLLING_PART_RADIUS) {
+          if (position.y < lightningField.maximumY + PlayerRollingPart.ROLLING_PART_RADIUS) {
+            if (position.z > lightningField.minimumZ - PlayerRollingPart.ROLLING_PART_RADIUS) {
+              if (position.z < lightningField.maximumZ + PlayerRollingPart.ROLLING_PART_RADIUS) {
                 return true;
               }
             }
@@ -817,36 +884,7 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
     return false;
   }
 
-  bool checkItemCollision(Item item) => collidesWithSphere(item) != null;
-
-  void _makeTripleShoot() {
-    for (GunTurret turret in gunTurrets) {
-      remove(turret);
-    }
-    gunTurrets.clear();
-    GunTurret frontTurret = generateTurret();
-    GunTurret leftTurret = generateTurret();
-    leftTurret.rotation.y = PI / 6;
-    GunTurret rightTurret = generateTurret();
-    rightTurret.rotation.y = -PI / 6;
-    gunTurrets.add(frontTurret);
-    gunTurrets.add(leftTurret);
-    gunTurrets.add(rightTurret);
-    for (GunTurret gunTurret in gunTurrets) {
-      add(gunTurret);
-    }
-  }
-
-  void _makeSingleShoot() {
-    for (GunTurret turret in gunTurrets) {
-      remove(turret);
-    }
-    gunTurrets.clear();
-    gunTurrets.add(generateTurret());
-    for (GunTurret gunTurret in gunTurrets) {
-      add(gunTurret);
-    }
-  }
+  bool checkItemCollision(Item item) => rollingPart.collidesWithSphere(item) != null;
 
   bool hit() {
     _hits += 1;
@@ -865,32 +903,19 @@ class Player extends Object3D with SphereCollidable, DiskCollidable {
   }
 
   List<Bullet> _maybeFire(Duration elapsedTime) {
-    List<Bullet> toReturn = [];
     if (_sinceLastShot.inMilliseconds > 1000) {
-      for (GunTurret turret in gunTurrets) {
-        toReturn.add(turret.fire());
-      }
-      _sinceLastShot = new Duration();
-    } else {
-      _sinceLastShot = _sinceLastShot + elapsedTime;
+        _sinceLastShot = new Duration();
+        return torso.fire();
     }
-    return toReturn;
+    _sinceLastShot = _sinceLastShot + elapsedTime;
+    return [];
   }
-
 
   static Material _generateMaterial(double hue) {
     MeshLambertMaterial toReturn = new MeshLambertMaterial();
     toReturn.color = new Color().setHSL(hue, STARTING_SATURATION, 0.5);
     toReturn.map = plainWhiteTexture;
     return toReturn;
-  }
-
-  Mesh generateRollingPart(Material material) {
-    return new Mesh(new SphereGeometry(ROLLING_PART_RADIUS), material);
-  }
-
-  Mesh generateTorso(Material material) {
-    return new Mesh(new CylinderGeometry(TORSO_RADIUS, TORSO_RADIUS, TORSO_HEIGHT), material);
   }
 }
 

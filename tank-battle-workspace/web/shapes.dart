@@ -7,19 +7,20 @@ import 'package:vector_math/vector_math.dart';
  * collision detection functions. I'll probably
  * be implementing BoxCollidable next.
  */
+
+Vector3 _collidesTwoSphereData(Vector3 onePosition, double oneRadius, Vector3 otherPosition, double otherRadius) {
+  onePosition = onePosition.clone();
+  onePosition.sub(otherPosition);
+  if (onePosition.length < oneRadius + otherRadius) {
+    return onePosition;
+  }
+  return null;
+}
+
 abstract class SphereCollidable {
 
   Vector3 getSphereWorldPosition();
   double get sphereRadius;
-
-  static Vector3 _collidesTwoSphereData(Vector3 onePosition, double oneRadius, Vector3 otherPosition, double otherRadius) {
-    onePosition = onePosition.clone();
-    onePosition.sub(otherPosition);
-    if (onePosition.length < oneRadius + otherRadius) {
-      return onePosition;
-    }
-    return null;
-  }
 
   /* Sometimes, you want to use values other than a sphere's
      * canonical position and radius when computing a collision.
@@ -54,4 +55,20 @@ abstract class SphereCollidable {
 abstract class DiskCollidable {
   Vector3 getDiskWorldPosition();
   double get diskRadius;
+
+  Vector3 collidesWithDisk(DiskCollidable disk) {
+    Vector3 currentPosition = getDiskWorldPosition();
+    Vector3 otherPosition = disk.getDiskWorldPosition();
+    currentPosition.y = 0.0;
+    otherPosition.y = 0.0;
+    return _collidesTwoSphereData(currentPosition, diskRadius, otherPosition, disk.diskRadius);
+  }
+
+  Vector3 collidesWithSphere(SphereCollidable sphere) {
+    Vector3 currentPosition = getDiskWorldPosition();
+    Vector3 otherPosition = sphere.getSphereWorldPosition();
+    currentPosition.y = 0.0;
+    otherPosition.y = 0.0;
+    return _collidesTwoSphereData(currentPosition, diskRadius, otherPosition, sphere.sphereRadius);
+  }
 }
