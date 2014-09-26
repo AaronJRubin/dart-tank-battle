@@ -11,6 +11,7 @@ import 'items.dart';
 import 'keyboard.dart';
 import 'obstacles.dart';
 import 'animation.dart' as animation;
+import 'shapes.dart';
 
 /**
  * [RealisticMovementPlayer] is the default
@@ -228,45 +229,40 @@ class RealisticMovementPlayer extends Player {
    * of the pillar (so the [impact] method does not need to be called here).
    */
   bool checkDeathPillarCollisionAndBounceAppopriately(DeathPillar pillar) {
-    if (_touchingPillar(pillar)) {
-      Vector3 currentPosition = rollingPartWorldCoordinates;
-      currentPosition.y = 0.0;
-      Vector3 pillarPosition = pillar.getWorldPosition();
-      pillarPosition.y = 0.0;
-      currentPosition.sub(pillarPosition);
-      double totalSpeed = computeTotalSpeed();
-      if (!pillar.move) {
-        totalSpeed += 0.1;
-      }
-      Vector3 normalizedImpactVector = currentPosition.normalized();
-      normalizedImpactVector.multiply(new Vector3.all(-totalSpeed));
-      if (pillar.move) {
-        normalizedImpactVector.addScaled(pillar.movementAxis, -pillar.movementSpeed);
-      }
-      /* In principle, the new velocity of the player
-       * after hitting the pillar should have a y-value of
-       * 0.0, because when a player hits a pillar, the player and pillar should
-       * be on the same plane (both having a y-position of 0).
-       * However, floating-point precision errors can lead to infinitesimal
-       * differences in the y-coordinates of the two objects, and hence
-       * a non-zero y-value in the impact vector. These
-       * differences become magnified with repeated
-       * impacts and with the many moves of the budge loop.
-       * Explicitly setting the y-value of the new velocity
-       * to 0.0 prevents this bug, which can otherwise
-       * cause the player to float above the stage!
-         */
-      normalizedImpactVector.y = 0.0;
-      setVelocity(normalizedImpactVector);
-      while (_touchingPillar(pillar)) {
-        budge();
-        updateMatrixWorld(force : true);
-      }
-      return true;
+    Vector3 impact = collidesWithDisk(pillar);
+    if (impact == null) {
+      return false;
     }
-    return false;
+    double totalSpeed = computeTotalSpeed();
+    if (!pillar.move) {
+      totalSpeed += 0.1;
+    }
+    Vector3 normalizedImpactVector = impact.normalized();
+    normalizedImpactVector.multiply(new Vector3.all(-totalSpeed));
+    if (pillar.move) {
+      normalizedImpactVector.addScaled(pillar.movementAxis, -pillar.movementSpeed);
+    }
+    /* In principle, the new velocity of the player
+          * after hitting the pillar should have a y-value of
+          * 0.0, because when a player hits a pillar, the player and pillar should
+          * be on the same plane (both having a y-position of 0).
+          * However, floating-point precision errors can lead to infinitesimal
+          * differences in the y-coordinates of the two objects, and hence
+          * a non-zero y-value in the impact vector. These
+          * differences become magnified with repeated
+          * impacts and with the many moves of the budge loop.
+          * Explicitly setting the y-value of the new velocity
+          * to 0.0 prevents this bug, which can otherwise
+          * cause the player to float above the stage!
+            */
+    normalizedImpactVector.y = 0.0;
+    setVelocity(normalizedImpactVector);
+    while (collidesWithDisk(pillar) != null) {
+      budge();
+      updateMatrixWorld(force: true);
+    }
+    return true;
   }
-
 
   void updateCameraAspectRatio(double aspectRatio) {
     camera.aspect = aspectRatio;
@@ -388,13 +384,21 @@ class GunTurret extends Object3D {
 
 }
 
-class Bullet extends Object3D {
+class Bullet extends Object3D with SphereCollidable {
   static const double radius = Player.ROLLING_PART_RADIUS / 2.0;
   static const double minimumSpeed = 1.0;
   static const double mass = Player.MASS / 3.0;
 
   final Player owner;
   Vector3 _velocity;
+
+  double get sphereRadius {
+    return radius;
+  }
+
+  Vector3 getSphereWorldPosition() {
+    return position.clone();
+  }
 
   Bullet(GunTurret turret) : this.owner = turret.owner {
     Material material = owner.material;
@@ -446,26 +450,9 @@ class Bullet extends Object3D {
     return _velocity.clone();
   }
 
-  bool checkPlayerCollision(Player target) {
-    Vector3 currentPosition = new Vector3.copy(this.position);
-    Matrix4 matrixWorld = target.torso.matrixWorld;
-    Vector4 rightColumn = matrixWorld.getColumn(3);
-    Vector3 torsoPosition = new Vector3(rightColumn.x, rightColumn.y, rightColumn.z);
-    double distance = currentPosition.sub(torsoPosition).length;
-    if (distance < radius + Player.TORSO_RADIUS) {
-      return true;
-    }
-    return false;
-  }
+  bool checkPlayerCollision(Player target) => collidesWithDisk(target) != null;
 
-  bool checkDeathPillarCollision(DeathPillar pillar) {
-    Vector3 currentPosition = new Vector3.copy(this.position);
-    currentPosition.sub(pillar.position);
-    if (currentPosition.length < radius + pillar.radius) {
-      return true;
-    }
-    return false;
-  }
+  bool checkDeathPillarCollision(DeathPillar pillar) => collidesWithDisk(pillar) != null;
 
   bool checkMultipleDeathPillarCollision(List<DeathPillar> deathPillars) {
     for (DeathPillar deathPillar in deathPillars) {
@@ -476,14 +463,7 @@ class Bullet extends Object3D {
     return false;
   }
 
-  bool checkOtherBulletCollision(Bullet other) {
-    Vector3 currentPosition = new Vector3.copy(this.position);
-    currentPosition.sub(other.position);
-    if (currentPosition.length < radius * 2) {
-      return true;
-    }
-    return false;
-  }
+  bool checkOtherBulletCollision(Bullet other) => collidesWithSphere(other) != null;
 
   void update(Duration elapsedTime) {
     this.position.sub(computeVelocity().multiply(new Vector3.all(elapsedTime.inMilliseconds.toDouble())));
@@ -499,8 +479,9 @@ class Bullet extends Object3D {
  */
 typedef void PlayerUpdateAction(Keyboard board, Duration d);
 
-class Player extends Object3D {
+class Player extends Object3D with SphereCollidable, DiskCollidable {
   static const ROLLING_PART_RADIUS = 50.0;
+
   static const SPIKE_LENGTH = ROLLING_PART_RADIUS;
   static const SPIKE_BOTTOM_RADIUS = ROLLING_PART_RADIUS / 4;
   static const SPIKE_TOP_RADIUS = ROLLING_PART_RADIUS / 40;
@@ -686,12 +667,32 @@ class Player extends Object3D {
     rollingPart.material = m;
   }
 
-  Vector3 get rollingPartWorldCoordinates {
+  Vector3 getSphereWorldPosition() {
     return rollingPart.matrixWorld.getTranslation().clone();
   }
 
-  Vector3 get torsoWorldCoordinates {
+  /* Yes, when the player is spikey, this is really
+   * a disk, not a sphere, but it's convenient
+   * to treat the spherical aspect of the player
+   * as the part that's susceptible to contact
+   * with other players and obstacles (but not bullets),
+   * so we cheat a little, incurring a small amount of
+   * technical debt.
+   */
+  double get sphereRadius {
+    if (spikey) {
+      return ROLLING_PART_RADIUS + SPIKE_LENGTH;
+    } else {
+      return ROLLING_PART_RADIUS;
+    }
+  }
+
+  Vector3 getDiskWorldPosition() {
     return torso.matrixWorld.getTranslation().clone();
+  }
+
+  double get diskRadius {
+    return TORSO_RADIUS;
   }
 
   void handleShotgunPickup() {
@@ -708,23 +709,6 @@ class Player extends Object3D {
       spikey = true;
     }
     spikinessClock.restart();
-  }
-
-  double get horizontalRadiusAroundBall {
-    if (spikey) {
-      return ROLLING_PART_RADIUS + SPIKE_LENGTH;
-    } else {
-      return ROLLING_PART_RADIUS;
-    }
-  }
-
-  bool _touchingPillar(DeathPillar pillar) {
-    Vector3 currentPosition = rollingPartWorldCoordinates;
-    currentPosition.y = 0.0;
-    Vector3 pillarPosition = pillar.getWorldPosition();
-    pillarPosition.y = 0.0;
-    currentPosition.sub(pillarPosition);
-    return currentPosition.length < this.horizontalRadiusAroundBall + pillar.radius;
   }
 
   static List<Object3D> _generateSpikes() {
@@ -747,7 +731,7 @@ class Player extends Object3D {
   }
 
   bool overEdgeOfSquare(double squareSideLength) {
-    Vector3 whereIAm = rollingPartWorldCoordinates;
+    Vector3 whereIAm = getSphereWorldPosition();
     squareSideLength = squareSideLength / 2;
     if (whereIAm.x + ROLLING_PART_RADIUS < -squareSideLength) {
       return true;
@@ -764,14 +748,7 @@ class Player extends Object3D {
     return false;
   }
 
-  bool checkPlayerCollision(RealisticMovementPlayer other) {
-    Vector3 currentPosition = new Vector3.copy(this.position);
-    currentPosition.sub(other.position);
-    if (currentPosition.length < this.horizontalRadiusAroundBall + other.horizontalRadiusAroundBall) {
-      return true;
-    }
-    return false;
-  }
+  bool checkPlayerCollision(RealisticMovementPlayer other) => collidesWithSphere(other) != null;
 
   void _makeSpikey() {
     for (Object3D spike in spikes) {
@@ -825,10 +802,7 @@ class Player extends Object3D {
     return false;
   }
 
-  bool checkItemCollision(Item item) {
-    Vector3 positionForCollision = position.clone();
-    return positionForCollision.sub(item.position).length < horizontalRadiusAroundBall + Item.collidingSphereRadius;
-  }
+  bool checkItemCollision(Item item) => collidesWithSphere(item) != null;
 
   void _makeTripleShoot() {
     for (GunTurret turret in gunTurrets) {

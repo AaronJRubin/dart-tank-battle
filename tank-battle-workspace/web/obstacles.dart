@@ -5,6 +5,7 @@ import 'package:three/extras/image_utils.dart';
 import 'dart:math';
 import 'player.dart';
 import 'package:vector_math/vector_math.dart';
+import 'shapes.dart';
 
 class FireballLine extends Object3D {
 
@@ -34,7 +35,6 @@ class FireballLine extends Object3D {
   bool checkPlayerCollision(Player p) {
     for (Fireball fireball in fireballs) {
       if (fireball.checkPlayerCollision(p)) {
-      //  fireball.checkPlayerCollision(p, verbose : true);
         return true;
       }
     }
@@ -43,7 +43,7 @@ class FireballLine extends Object3D {
 
 }
 
-class Fireball extends Object3D {
+class Fireball extends Object3D with SphereCollidable {
 
   static final Random random = new Random();
   static final double radius = 50.0;
@@ -61,6 +61,10 @@ class Fireball extends Object3D {
     return loaded;
   }
 
+  double get sphereRadius => radius;
+
+  Vector3 getSphereWorldPosition() => matrixWorld.getTranslation().clone();
+
   Fireball() {
    // fireTexture.needsUpdate = true;
    // fireTexture.wrapS = fireTexture.wrapT = RepeatWrapping;
@@ -71,24 +75,7 @@ class Fireball extends Object3D {
     position.y = radius;
   }
 
-  bool checkPlayerCollision(Player p) {
-   /* if (verbose) {
-    print("Calling checkPlayerCollision!");
-    } */
-    Vector3 worldPosition = matrixWorld.getTranslation().clone();
-   /* if (verbose) {
-    print("The world position of this fireball is " + worldPosition.toString());
-    } */
-    worldPosition.sub(p.rollingPartWorldCoordinates);
-  /*  if (verbose) {
-    print("The world coordinates of the player are " + p.rollingPartWorldCoordinates.toString());
-    } */
-    double distance = worldPosition.length;
-   /* if (verbose) {
-    print("The distance computed was " + distance.toString());
-    } */
-    return distance <= Player.ROLLING_PART_RADIUS + radius;
-  }
+  bool checkPlayerCollision(Player p) => collidesWithSphereData(p.getSphereWorldPosition(), Player.ROLLING_PART_RADIUS) != null;
  }
 
 class LightningField extends Object3D {
@@ -174,7 +161,7 @@ class LightningField extends Object3D {
   }
 }
 
-class DeathPillar extends Object3D {
+class DeathPillar extends Object3D with DiskCollidable {
   final double spikeBodyRatio = 0.4;
   final int spikesPerLevel;
   final bool move;
@@ -197,9 +184,9 @@ class DeathPillar extends Object3D {
     return new MeshLambertMaterial(color: 0x00005c);
   }
 
-  Vector3 getWorldPosition() {
-    return body.matrixWorld.getTranslation().clone();
-  }
+  Vector3 getDiskWorldPosition() => body.matrixWorld.getTranslation().clone();
+
+  double get diskRadius => radius;
 
   DeathPillar({this.height: 200.0, this.radius: 400.0, bool spikey: true, this.spikesPerLevel: 80, this.move: false, this.movementAxis, this.movementSpeed: 0.5, this.movementRange}) {
     if (!move) {
@@ -243,7 +230,6 @@ class DeathPillar extends Object3D {
       bodyContainer.add(body);
       this.add(bodyContainer);
     }
-   // this.position.y = height / 2;
   }
 
 

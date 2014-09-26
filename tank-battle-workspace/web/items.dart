@@ -2,10 +2,16 @@ library items;
 
 import 'package:three/three.dart';
 import 'dart:math';
+import 'shapes.dart';
+import 'package:vector_math/vector_math.dart';
 
-class Item extends Object3D {
+class Item extends Object3D with SphereCollidable {
   static const double collidingSphereRadius = 50.0;
   Mesh _surroundingCircle = new Mesh(new SphereGeometry(collidingSphereRadius), new MeshBasicMaterial(color: new Random().nextInt(0xffffff), wireframe: true));
+
+  double get sphereRadius => collidingSphereRadius;
+
+  Vector3 getSphereWorldPosition() => position.clone();
 
   Item() {
     add(_surroundingCircle);

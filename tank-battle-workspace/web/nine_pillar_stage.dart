@@ -45,8 +45,8 @@ class LightningFieldManager extends AnimationTimeline {
     secondTessla.material.color = DeathPillar.generateMaterial().color;
     lightningField = new LightningField(minimumX: min(firstTessla.position.x, secondTessla.position.x),
         maximumX: max(firstTessla.position.x, secondTessla.position.x),
-        minimumY: firstTessla.getWorldPosition().y - firstTessla.height / 2,
-        maximumY: firstTessla.getWorldPosition().y + firstTessla.height / 2,
+        minimumY: firstTessla.getDiskWorldPosition().y - firstTessla.height / 2,
+        maximumY: firstTessla.getDiskWorldPosition().y + firstTessla.height / 2,
         minimumZ: min(firstTessla.position.z, secondTessla.position.z),
         maximumZ: max(firstTessla.position.z, secondTessla.position.z));
     scene.add(lightningField);

@@ -227,7 +227,9 @@ class Game extends animation.Animation {
             player.setVelocity(qVelocity);
             while (player.checkPlayerCollision(players[q])) {
               player.budge();
+              player.updateMatrixWorld(force : true);
               players[q].budge();
+              players[q].updateMatrixWorld(force : true);
             }
           }
         }
