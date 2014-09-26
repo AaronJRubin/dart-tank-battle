@@ -23,8 +23,8 @@ abstract class SphereCollidable {
 
   /* Sometimes, you want to use values other than a sphere's
    * canonical position and radius when computing a collision.
-   * In particular, when a fireball collides with a player,
-   * you want to use the ROLLING_PART_RADIUS constant field of the Player class,
+   * In particular, when a [Fireball] collides with a [Player],
+   * you want to use the [ROLLING_PART_RADIUS] constant field of the [Player] class,
    * rather than the actual radius that can include invincible spikes.
    */
   Vector3 collidesWithSphereData(Vector3 otherPosition, double otherRadius) {
