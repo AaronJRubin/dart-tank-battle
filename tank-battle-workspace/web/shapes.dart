@@ -12,38 +12,31 @@ abstract class SphereCollidable {
   Vector3 getSphereWorldPosition();
   double get sphereRadius;
 
-  Vector3 collidesWithSphere(SphereCollidable other) {
-    Vector3 currentPosition = getSphereWorldPosition();
-    currentPosition.sub(other.getSphereWorldPosition());
-    if (currentPosition.length < this.sphereRadius + other.sphereRadius) {
-      return currentPosition;
+  static Vector3 _collidesTwoSphereData(Vector3 onePosition, double oneRadius, Vector3 otherPosition, double otherRadius) {
+    onePosition = onePosition.clone();
+    onePosition.sub(otherPosition);
+    if (onePosition.length < oneRadius + otherRadius) {
+      return onePosition;
     }
     return null;
   }
 
   /* Sometimes, you want to use values other than a sphere's
-   * canonical position and radius when computing a collision.
-   * In particular, when a [Fireball] collides with a [Player],
-   * you want to use the [ROLLING_PART_RADIUS] constant field of the [Player] class,
-   * rather than the actual radius that can include invincible spikes.
-   */
-  Vector3 collidesWithSphereData(Vector3 otherPosition, double otherRadius) {
-    Vector3 currentPosition = getSphereWorldPosition();
-    currentPosition.sub(otherPosition);
-    if (currentPosition.length < this.sphereRadius + otherRadius) {
-      return currentPosition;
-    }
-    return null;
-  }
+     * canonical position and radius when computing a collision.
+     * In particular, when a [Fireball] collides with a [Player],
+     * you want to use the [ROLLING_PART_RADIUS] constant field of the [Player] class,
+     * rather than the actual radius that can include invincible spikes.
+     */
+  Vector3 collidesWithSphereData(Vector3 otherPosition, double otherRadius) => _collidesTwoSphereData(getSphereWorldPosition(), sphereRadius, otherPosition, otherRadius);
+
+  Vector3 collidesWithSphere(SphereCollidable other) => collidesWithSphereData(other.getSphereWorldPosition(), other.sphereRadius);
 
   Vector3 collidesWithDisk(DiskCollidable disk) {
     Vector3 currentPosition = getSphereWorldPosition();
-    currentPosition.sub(disk.getDiskWorldPosition());
+    Vector3 otherPosition = disk.getDiskWorldPosition();
     currentPosition.y = 0.0;
-    if (currentPosition.length < this.sphereRadius + disk.diskRadius) {
-      return currentPosition;
-    }
-    return null;
+    otherPosition.y = 0.0;
+    return _collidesTwoSphereData(currentPosition, sphereRadius, otherPosition, disk.diskRadius);
   }
 }
 
