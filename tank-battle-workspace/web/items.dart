@@ -9,6 +9,7 @@ class Item extends Object3D {
 
   Item() {
     add(_surroundingCircle);
+    position.y = collidingSphereRadius;
   }
 
   void update(Duration d) {

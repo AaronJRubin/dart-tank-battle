@@ -131,8 +131,7 @@ abstract class Stage {
     MeshBasicMaterial groundMaterial = new MeshBasicMaterial();
     groundMaterial.map = texture;
     Mesh ground = new Mesh(new PlaneGeometry(squareSideLength, squareSideLength), groundMaterial);
-    ground.position.y = -50.0;
-    ground.rotation.x = -90.0 * PI / 180;
+    ground.rotation.x = -PI / 2;
     return ground;
   }
 
@@ -253,9 +252,11 @@ abstract class Stage {
   static Object3D makeFence(double squareStageWidth, Texture squareTexture, {double heightWidthRatio: 40.0}) {
     MeshBasicMaterial fenceMaterial = new MeshBasicMaterial(side: DoubleSide);
     fenceMaterial.map = squareTexture;
-    Geometry fenceGeometry = new PlaneGeometry(squareStageWidth, squareStageWidth / heightWidthRatio);
+    double height = squareStageWidth / heightWidthRatio;
+    Geometry fenceGeometry = new PlaneGeometry(squareStageWidth, height);
     fenceGeometry.faceVertexUvs[0][0] = [new UV(0.0, 0.0), new UV(0.0, 1.0 / heightWidthRatio), new UV(1.0, 1.0 / heightWidthRatio), new UV(1.0, 0.0)];
     Mesh fence = new Mesh(fenceGeometry, fenceMaterial);
+    fence.position.y = height / 2;
     return fence;
   }
 

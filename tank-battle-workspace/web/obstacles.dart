@@ -68,6 +68,7 @@ class Fireball extends Object3D {
     Material sphereMaterial = new MeshBasicMaterial(map : fireTexture);
     Mesh sphere = new Mesh(sphereGeometry, sphereMaterial);
     add(sphere);
+    position.y = radius;
   }
 
   bool checkPlayerCollision(Player p) {
@@ -190,9 +191,14 @@ class DeathPillar extends Object3D {
   double distanceTraveled = 0.0;
   MeshLambertMaterial material = generateMaterial();
   CylinderGeometry spikeGeometry;
+  Mesh body;
 
   static MeshLambertMaterial generateMaterial() {
     return new MeshLambertMaterial(color: 0x00005c);
+  }
+
+  Vector3 getWorldPosition() {
+    return body.matrixWorld.getTranslation().clone();
   }
 
   DeathPillar({this.height: 200.0, this.radius: 400.0, bool spikey: true, this.spikesPerLevel: 80, this.move: false, this.movementAxis, this.movementSpeed: 0.5, this.movementRange}) {
@@ -212,15 +218,15 @@ class DeathPillar extends Object3D {
       this.spikeLength = radius * spikeBodyRatio;
       this.spikeBaseRadius = (bodyRadius * 2 * PI) / spikesPerLevel;
       CylinderGeometry geometry = new CylinderGeometry(bodyRadius, bodyRadius, height, 24);
-      Mesh body = new Mesh(geometry, material);
+      body = new Mesh(geometry, material);
       body.position.y = height / 2;
       Object3D bodyContainer = new Object3D();
       bodyContainer.add(body);
       this.add(bodyContainer);
-      double heightIndex = 0.0;
+      double heightIndex = spikeBaseRadius / 2;
       double rotationMultiplier = 360.0 / spikesPerLevel;
       this.spikeGeometry = new CylinderGeometry(1.0, spikeBaseRadius, spikeLength, 16);
-      while (heightIndex < (height - spikeBaseRadius)) {
+      while (heightIndex < (height - spikeBaseRadius / 2)) {
         int rotationIndex = 0;
         while (rotationIndex < spikesPerLevel) {
           this.add(_generateSpike(heightIndex, rotationIndex * rotationMultiplier));
@@ -231,12 +237,13 @@ class DeathPillar extends Object3D {
     } else {
       this.bodyRadius = radius;
       CylinderGeometry geometry = new CylinderGeometry(bodyRadius, bodyRadius, height, 24);
-      Mesh body = new Mesh(geometry, material);
+      body = new Mesh(geometry, material);
       body.position.y = height / 2;
       Object3D bodyContainer = new Object3D();
       bodyContainer.add(body);
       this.add(bodyContainer);
     }
+   // this.position.y = height / 2;
   }
 
 

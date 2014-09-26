@@ -43,7 +43,12 @@ class LightningFieldManager extends AnimationTimeline {
   void cleanupFlickerPhase() {
     firstTessla.material.color = DeathPillar.generateMaterial().color;
     secondTessla.material.color = DeathPillar.generateMaterial().color;
-    lightningField = new LightningField(minimumX: min(firstTessla.position.x, secondTessla.position.x), maximumX: max(firstTessla.position.x, secondTessla.position.x), minimumY: firstTessla.position.y - firstTessla.height / 2, maximumY: firstTessla.position.y + firstTessla.height / 2, minimumZ: min(firstTessla.position.z, secondTessla.position.z), maximumZ: max(firstTessla.position.z, secondTessla.position.z));
+    lightningField = new LightningField(minimumX: min(firstTessla.position.x, secondTessla.position.x),
+        maximumX: max(firstTessla.position.x, secondTessla.position.x),
+        minimumY: firstTessla.getWorldPosition().y - firstTessla.height / 2,
+        maximumY: firstTessla.getWorldPosition().y + firstTessla.height / 2,
+        minimumZ: min(firstTessla.position.z, secondTessla.position.z),
+        maximumZ: max(firstTessla.position.z, secondTessla.position.z));
     scene.add(lightningField);
   }
 
@@ -225,9 +230,9 @@ class NinePillarStage extends Stage {
         double zCoordinate = pillarInterval * (1 + z) - _SQUARESTAGEWIDTH / 2;
         DeathPillar toAdd;
         if (!pillarsMove) {
-          toAdd = new DeathPillar(height: Player.TORSO_RADIUS * 4, radius: Player.TORSO_RADIUS * 5, spikesPerLevel: 10, spikey: true);
+          toAdd = new DeathPillar(height: Player.TORSO_RADIUS * 5, radius: Player.TORSO_RADIUS * 5, spikesPerLevel: 10, spikey: true);
         } else {
-          toAdd = new DeathPillar(height: Player.TORSO_RADIUS * 4, radius: Player.TORSO_RADIUS * 5, spikesPerLevel: 10, spikey: true, move: true);
+          toAdd = new DeathPillar(height: Player.TORSO_RADIUS * 5, radius: Player.TORSO_RADIUS * 5, spikesPerLevel: 10, spikey: true, move: true);
         }
         toAdd.position.x = xCoordinate;
         toAdd.position.z = zCoordinate;

@@ -229,8 +229,11 @@ class RealisticMovementPlayer extends Player {
    */
   bool checkDeathPillarCollisionAndBounceAppopriately(DeathPillar pillar) {
     if (_touchingPillar(pillar)) {
-      Vector3 currentPosition = new Vector3.copy(this.position);
-      currentPosition.sub(pillar.position);
+      Vector3 currentPosition = rollingPartWorldCoordinates;
+      currentPosition.y = 0.0;
+      Vector3 pillarPosition = pillar.getWorldPosition();
+      pillarPosition.y = 0.0;
+      currentPosition.sub(pillarPosition);
       double totalSpeed = computeTotalSpeed();
       if (!pillar.move) {
         totalSpeed += 0.1;
@@ -257,6 +260,7 @@ class RealisticMovementPlayer extends Player {
       setVelocity(normalizedImpactVector);
       while (_touchingPillar(pillar)) {
         budge();
+        updateMatrixWorld(force : true);
       }
       return true;
     }
@@ -674,6 +678,7 @@ class Player extends Object3D {
     for (GunTurret turret in gunTurrets) {
       this.add(turret);
     }
+    this.position.y = ROLLING_PART_RADIUS;
   }
 
   void _setMaterial(Material m) {
@@ -714,8 +719,11 @@ class Player extends Object3D {
   }
 
   bool _touchingPillar(DeathPillar pillar) {
-    Vector3 currentPosition = new Vector3.copy(this.position);
-    currentPosition.sub(pillar.position);
+    Vector3 currentPosition = rollingPartWorldCoordinates;
+    currentPosition.y = 0.0;
+    Vector3 pillarPosition = pillar.getWorldPosition();
+    pillarPosition.y = 0.0;
+    currentPosition.sub(pillarPosition);
     return currentPosition.length < this.horizontalRadiusAroundBall + pillar.radius;
   }
 
