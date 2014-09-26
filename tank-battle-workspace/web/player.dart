@@ -476,12 +476,18 @@ class Bullet extends Object3D with SphereCollidable {
  * and physics agnostic. Behavior that depends upon control scheme
  * and physics should be defined be subclassing this class, as done by
  * [RealisticMovementPlayer] and [StaccatoMovementPlayer].
+ *
+ * [SphereCollidable] is relevant to the behaviors of the
+ * [rollingPart], and [DiskCollidable] is relevant to the behaviors
+ * of the [torso]. Calling [collidesWithDisk] vs. [collidesWithSphere]
+ * from another [SphereCollidable] with a [Player] as an argument
+ * hence entails checking collision with two separate pieces of the
+ * player object.
  */
 typedef void PlayerUpdateAction(Keyboard board, Duration d);
 
 class Player extends Object3D with SphereCollidable, DiskCollidable {
   static const ROLLING_PART_RADIUS = 50.0;
-
   static const SPIKE_LENGTH = ROLLING_PART_RADIUS;
   static const SPIKE_BOTTOM_RADIUS = ROLLING_PART_RADIUS / 4;
   static const SPIKE_TOP_RADIUS = ROLLING_PART_RADIUS / 40;
