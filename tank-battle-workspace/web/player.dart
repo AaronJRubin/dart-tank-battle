@@ -470,6 +470,15 @@ class Bullet extends Object3D with SphereCollidable {
   }
 }
 
+class PlayerRollingPart extends Mesh with DiskCollidable {
+
+  PlayerRollingPart (Material material) : super(new SphereGeometry(Player.ROLLING_PART_RADIUS), material);
+
+  double get diskRadius => Player.ROLLING_PART_RADIUS;
+
+  Vector3 getDiskWorldPosition() => matrixWorld.getTranslation().clone();
+}
+
 /**
  * The [Player] class defines aspects of player behavior
  * that are independent of movement, and hence control scheme
