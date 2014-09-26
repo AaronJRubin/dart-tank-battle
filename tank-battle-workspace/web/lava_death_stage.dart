@@ -12,7 +12,7 @@ class FallingPlayerAnimation extends BasicAnimation {
       /* Yes, players move equal to their negative velocity, for silly reasons */
       fallingPlayer.setVelocity(oldVelocity);
     };
-    test = () => fallingPlayer.getDiskWorldPosition().y + Player.TORSO_HEIGHT < floorYPosition;
+    test = () => fallingPlayer.torso.getDiskWorldPosition().y + PlayerTorso.TORSO_HEIGHT < floorYPosition;
   }
 }
 
