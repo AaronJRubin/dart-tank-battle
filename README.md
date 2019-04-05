@@ -1,3 +1,9 @@
+# Versions
+
+Compile this code against version 1.7.2 of the Dart SDK, downloadable from https://www.dartlang.org/tools/sdk/archive (newer versions are not compatible with the three.dart library).
+
+# Overview
+
 This is the source code for the browser-based game hosted at http://aarons-website.appspot.com/game-settings.html, built with [Dart](https://www.dartlang.org/) and WebGL (more specifically, the [three.dart](https://github.com/threeDart/three.dart) port of the [three.js](http://www.threejs.org) library that abstracts away some of WebGL's complexity).
 
 #Rationale
